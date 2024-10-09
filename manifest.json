@@ -1,0 +1,16 @@
+{
+    "manifest_version": 3,
+    "name": "Server Clound",
+    "description": "Server Clound",
+    "version": "1.0",
+    "action": {
+        "default_popup": "login.html",
+        "default_icon": "hello_extensions.png"
+    },
+    "permissions": [
+        "storage",
+        "activeTab",
+        "scripting",
+        "downloads"
+    ]
+}
