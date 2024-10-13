@@ -70,7 +70,14 @@ const setMyToken = (token) => {
 }
 
 const getUserInfo = () => {
-    return localStorage.getItem('userInfo');
+    try{
+        return JSON.parse(localStorage.getItem('userInfo'));
+
+    } catch (e) {
+        console.log('sin info user');
+        console.error(e);
+        return {};
+    }
 }
 const setUserInfo = (userInfo) => 
 {
@@ -83,7 +90,9 @@ const logout = () => {
 
 const logginBySession = async () => {
 
-    if(await validateSession())
+    let token = getMyToken();
+
+    if(token != null)
         {
             window.location.href = "index.html";
         } else {

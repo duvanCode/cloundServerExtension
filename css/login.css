@@ -53,9 +53,6 @@ button:hover {
     padding: 0 0 5px 0px;
 }
 
-.d-none{
-    display: none;
-}
 .error-spam{
     color: #ec9a9a;margin: 5px 5px;
 }
