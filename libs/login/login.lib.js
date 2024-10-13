@@ -1,29 +1,17 @@
 import { service,getUrlApi } from '../services/general.service.js';
 
-const cargando = (status,interval) => {
+const cargando = (status) => {
     let submintButtom = document.querySelector('#submitBUTTON');
     
     if(status)
     {
-        let contador = 0;
-        submintButtom.disabled = true;
-        submintButtom.innerText = 'Cargando';
-        let intervali = setInterval(() => {
-            let punto ='';
-            if(contador == 0) punto = '';
-            if(contador == 1) punto = '.';
-            if(contador == 2) punto = '..';
-            if(contador == 3) punto = '...';
-            submintButtom.innerText = 'Cargando' + punto;
-            contador++;
-            if(contador == 4) contador = 0;
-        },800);
-        return intervali
+        let pelicula = createElementLoading();
+        let elementLoadig = createElementImgLoading();
+        pelicula.appendChild(elementLoadig);
+        document.body.appendChild(pelicula);
     } else {
-
-        clearInterval(interval);
-        submintButtom.disabled = false;
-        submintButtom.innerText = 'Submit';
+        let pelicula = document.querySelector('#peliculaCargando');
+        pelicula.remove();
     }
 
 }
@@ -50,6 +38,7 @@ const validateSession = async () => {
     let myToken = getMyToken();
     if(myToken != null)
         {
+            console.log('legoo');
             let myRquest = {
                 url: getUrlApi() + "/api/user/info",
                 method:"GET",
@@ -58,13 +47,13 @@ const validateSession = async () => {
                     'Authorization':'Bearer '+ myToken
                 }
             };
-            let interval = cargando(true);
+            cargando(true);
             let result = await service(myRquest);
 
-            cargando(false,interval);
+            cargando(false);
 
-            if(result.success) setUserInfo(result.data);
-            if(result.success) return result;
+            if(result?.success) setUserInfo(result.data);
+            if(result?.success) return result;
 
             return false;
         }
@@ -98,7 +87,7 @@ const logginBySession = async () => {
         {
             window.location.href = "index.html";
         } else {
-            window.location.href = "login.html"
+            logout();
         };
 
 }
@@ -106,7 +95,7 @@ const logginBySession = async () => {
 const eventSubmitLogin = () => {    
     document.getElementById('loginForm').addEventListener('submit',async function(e) {
         e.preventDefault();
-        let interval = cargando(true);
+        cargando(true);
         
         const username = document.getElementById('username').value;
         const password = document.getElementById('password').value;
@@ -119,13 +108,42 @@ const eventSubmitLogin = () => {
                 password:password
             }
         });
-        cargando(false,interval);
 
-        if(!(response.success)) error(true);
-        if((response.data.length == 0)) error(true);
-        setMyToken(response.data.token);
-        window.location.href = "index.html";
+        cargando(false);
+
+        if(!(response.success) || (response.data.length == 0)){
+            error(true);
+            return;
+        } else {
+            setMyToken(response.data.token);
+            window.location.href = "index.html";
+        };
+
     });
+}
+
+
+const createElementLoading = () => {
+    let pelicula = document.createElement('DIV');
+    pelicula.style.position = 'absolute';
+    pelicula.style.height = '100%';
+    pelicula.style.width = '100%';
+    pelicula.style.background = 'rgb(255 255 255 / 17%)';
+    pelicula.style.top = '0';
+    pelicula.style['backdrop-filter'] = 'blur(1.5px)';
+    pelicula.style['display'] = 'flex';
+    pelicula.style['justify-content'] = 'center';
+    pelicula.style['align-items'] = 'center';
+    pelicula.id = 'peliculaCargando';
+
+    return pelicula;
+} 
+
+const createElementImgLoading = () => {
+    let elementLoadig = document.createElement('img');
+    elementLoadig.src = 'images/loading.svg';
+    elementLoadig.classList.add('spinner');
+    return elementLoadig;
 }
 
 export { cargando,error,getMyToken,validateSession,logginBySession,logout,setMyToken,setUserInfo,getUserInfo,eventSubmitLogin };
