@@ -5,12 +5,15 @@
     "version": "1.0",
     "action": {
         "default_popup": "login.html",
-        "default_icon": "hello_extensions.png"
+        "default_icon": "images/hello_extensions.png"
     },
     "permissions": [
         "storage",
         "activeTab",
         "scripting",
         "downloads"
+    ],
+    "host_permissions": [
+        "http://localhost:3001/*"
     ]
 }

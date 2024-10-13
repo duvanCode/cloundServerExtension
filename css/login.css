@@ -49,3 +49,17 @@ button {
 button:hover {
     background-color: #0056b3;
 }
+.padding-b-5{
+    padding: 0 0 5px 0px;
+}
+
+.d-none{
+    display: none;
+}
+.error-spam{
+    color: #ec9a9a;margin: 5px 5px;
+}
+.error-input{
+    color: #ec9a9a !important;
+    border: 2px solid #ec9a9a !important;
+}
