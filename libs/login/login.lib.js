@@ -47,11 +47,7 @@ const validateSession = async () => {
                     'Authorization':'Bearer '+ myToken
                 }
             };
-            cargando(true);
             let result = await service(myRquest);
-
-            cargando(false);
-
             if(result?.success) setUserInfo(result.data);
             if(result?.success) return result;
 

@@ -136,7 +136,7 @@ body {
     position: absolute;
     top: 14px;
     right: 0px;
-    padding: 10px 20px;
+    padding:10px 9px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -144,15 +144,19 @@ body {
     background: #fff;
     border-radius: 20px;
     border: 2px solid #ccc !important;
-    width: 43px;
+    width: 60px;
     color: #b2b2b2;
-  }
+}
 
-  .menu-item:hover {
-    background-color: #e3eaf4;
-    border: 2px solid #ccc !important;
-  }
+.menu-item:hover {
+background-color: #e3eaf4;
+border: 2px solid #ccc !important;
+}
 
-  .menu-item:last-child {
-    border-bottom: none;
-  }
+.menu-item:last-child {
+border-bottom: none;
+}
+
+.logout-item{
+    margin-left: 4px;
+}

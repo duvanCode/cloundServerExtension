@@ -16,47 +16,23 @@
             <div class="search-bar">
                 <input type="text" placeholder="Search Cloud" aria-label="Buscar en la nube">
             </div>
-            <div class="storage">2.0GB</div>
+            <div class="storage">0GB</div>
             <div class="avatar-container-father">
                 <h4 id="avatar-container" class="avatar-container" >
                     <div id="user-avatar" class="avatar" title=""></div>
                 </h4>
                 <div class="menu-item  d-none" id="logout-btn">
-                    <p class="m-0 p-0">Log out</p>
+                    <p class="m-0 p-0">Log out <i class="fa-solid fa-right-from-bracket logout-item"></i></p>
                 </div>
             </div>
         </div>
         <nav class="breadcrumb" aria-label="Miga de pan">
-            <ol>
-                <li><a href="#" data-path="/">Inicio</a></li>
+            <ol id="miga-pan">
+                <li data-path-li="0"><a href="#" data-path="0">Inicio</a></li>
             </ol>
         </nav>
         <div class="content">
-            <div class="folder-grid">
-                <div class="folder" data-path="/Documentos">
-                    <i class="fas fa-folder"></i>
-                    <p>Documentos</p>
-                </div>
-                <div class="folder" data-path="/Imágenes">
-                    <i class="fas fa-folder-open"></i>
-                    <p>Imágenes</p>
-                </div>
-                <div class="folder" data-path="/Descargas">
-                    <i class="fas fa-folder-plus"></i>
-                    <p>Descargas</p>
-                </div>
-                <div class="folder" data-path="/Música">
-                    <i class="fas fa-folder-minus"></i>
-                    <p>Música</p>
-                </div>
-                <div class="folder" data-path="/Proyectos">
-                    <i class="fas fa-folder-tree"></i>
-                    <p>Proyectos</p>
-                </div>
-                <div class="folder" data-path="/Varios">
-                    <i class="fas fa-folder-open"></i>
-                    <p>Varios</p>
-                </div>
+            <div id="content-directory" class="folder-grid">
             </div>
         </div>
         <div class="footer">
