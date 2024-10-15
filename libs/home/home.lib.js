@@ -1,6 +1,9 @@
 import { cargando, getUserInfo, logout, validateSession, getMyToken } from './../login/login.lib.js';
+import { createElementLoading } from './../login/login.components.js';
 import { getInitials, getCapitalice } from './../utils/string.methods.js';
+import { eventToggleMenuButtons } from './../utils/generic.methods.js';
 import { service, getUrlApi } from '../services/general.service.js';
+import { migaHTML,createDirectoryHTML,createFormFolder } from './home.components.js';
 
 const loadDataUser = () => {
     let userInfo = getUserInfo();
@@ -18,28 +21,19 @@ const eventLogout = () => {
 }
 
 const eventClickToMenuAvatar = () => {
-    let avatarContainer = document.querySelector('#avatar-container');
-    let userAvatar = document.querySelector('#user-avatar');
-    let logoutBtn = document.querySelector('#logout-btn');
-
-    avatarContainer.setAttribute('tabindex', '0');
-    userAvatar.setAttribute('tabindex', '0');
-
-    userAvatar.addEventListener('blur', () => {
-        setTimeout(() => {
-            logoutBtn.classList.add('d-none');
-        }, 150);
+    
+    eventToggleMenuButtons({
+        containerID:'#avatar-container',
+        childrenContainerID:'#logout-btn'
     });
 
-    avatarContainer.addEventListener('blur', () => {
-        setTimeout(() => {
-            logoutBtn.classList.add('d-none');
-        }, 150);
+
+    eventToggleMenuButtons({
+        containerID:'#user-avatar',
+        childrenContainerID:'#logout-btn',
+        click:false
     });
 
-    avatarContainer.addEventListener('click', (event) => {
-        logoutBtn.classList.toggle('d-none');
-    });
 };
 
 const homeBySession = async () => {
@@ -83,23 +77,6 @@ const eventLoadDirectory = async (routeID = 0) => {
     }
     let contentDirecory = document.querySelector('#content-directory');
     contentDirecory.innerHTML = directorysHTML;
-}
-
-const createDirectoryHTML = (directory) => {
-    return `
-    <div class="folder" data-path="${directory?._id ?? ''}">
-        <i class="fas fa-folder"></i>
-        <p>${directory?.name ?? ''}</p>
-    </div>
-    `;
-}
-
-const migaHTML = (directory) => {
-    return `
-        <li data-path-li="${directory?._id ?? ''}">
-            <a href="#" data-path="${directory?._id ?? ''}">${directory?.name ?? ''}</a>
-        </li>
-    `;
 }
 
 const getRouteNow = () => {
@@ -175,9 +152,54 @@ const eventMiga = () => {
             deleteAllAfterMigaPan(miga.getAttribute('data-path-li'));
             eventMiga();
             cargando(false);
-    
         });
     }
 }
 
-export { loadDataUser, eventLogout, eventClickToMenuAvatar, homeBySession, getDataRouteByID, eventLoadDirectory, eventClickToDirectorys,eventMiga,getRouteNow };
+
+const eventClickToMenuDown = () => {
+    eventToggleMenuButtons({
+        containerID:'#menu-down',
+        childrenContainerID:'#btn-new-folder'
+    });
+};
+
+
+const eventClickCreateFolder = () =>{
+    let btnNewFolder = document.querySelector('#btn-new-folder');
+    let pelicula = createElementLoading();
+    btnNewFolder.addEventListener('click',(e) => {
+        let htmlForm = createFormFolder();
+        pelicula.innerHTML = htmlForm;
+        document.body.appendChild(pelicula);
+        eventCloseForm();
+    });
+}
+
+
+const eventCloseForm = () => {
+    let elemetClose = document.querySelector('#close-form');
+    elemetClose.addEventListener('click',(e)=>{
+        let parent = document.querySelector('#peliculaCargando');
+        parent.remove();
+    });
+}
+
+const initEventsClicks = () => {
+    //eventos de miga de pan y directorios
+    eventClickToDirectorys();
+    eventMiga();
+
+    //eventos de avatar y logout
+    eventClickToMenuAvatar();
+    eventLogout();
+
+    //cargar datos de usuario
+    loadDataUser();
+
+    //evento crear carpeta y menu de abajo
+    eventClickToMenuDown();
+    eventClickCreateFolder();
+
+}
+export { homeBySession, getDataRouteByID, eventLoadDirectory,getRouteNow,initEventsClicks };

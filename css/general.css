@@ -18,3 +18,57 @@
 .m-0{
   margin: 0;
 }
+
+.form-container {
+  background: #fff;
+  padding: 15px 20px;
+  border: 2px solid #ccc;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-title {
+  margin: 0 4px;
+  font-size: 1.2rem;
+}
+
+.form-input {
+  width: 100%;
+  padding: 10px;
+  border: 2px solid #ccc;
+  border-radius: 20px;
+  box-sizing: border-box;
+  font-size: .85rem;
+  margin-top: 10px;
+}
+
+.form-header{
+  
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+
+}
+
+.btn-submit:hover {
+  background-color: #0056b3;
+}
+
+
+.btn-submit{
+  width: 100%;
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin:10px 0;
+}
+
+#close-form{
+  cursor: pointer;
+}

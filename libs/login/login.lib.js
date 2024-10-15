@@ -1,5 +1,5 @@
 import { service,getUrlApi } from '../services/general.service.js';
-
+import { createElementImgLoading,createElementLoading } from './login.components.js';
 const cargando = (status) => {
     let submintButtom = document.querySelector('#submitBUTTON');
     
@@ -127,28 +127,4 @@ const eventSubmitLogin = () => {
     });
 }
 
-
-const createElementLoading = () => {
-    let pelicula = document.createElement('DIV');
-    pelicula.style.position = 'absolute';
-    pelicula.style.height = '100%';
-    pelicula.style.width = '100%';
-    pelicula.style.background = 'rgb(255 255 255 / 17%)';
-    pelicula.style.top = '0';
-    pelicula.style['backdrop-filter'] = 'blur(1.5px)';
-    pelicula.style['display'] = 'flex';
-    pelicula.style['justify-content'] = 'center';
-    pelicula.style['align-items'] = 'center';
-    pelicula.id = 'peliculaCargando';
-
-    return pelicula;
-} 
-
-const createElementImgLoading = () => {
-    let elementLoadig = document.createElement('img');
-    elementLoadig.src = 'images/loading.svg';
-    elementLoadig.classList.add('spinner');
-    return elementLoadig;
-}
-
-export { cargando,error,getMyToken,validateSession,logginBySession,logout,setMyToken,setUserInfo,getUserInfo,eventSubmitLogin };
+export { cargando,error,getMyToken,validateSession,logginBySession,logout,setMyToken,setUserInfo,getUserInfo,eventSubmitLogin,createElementLoading };
