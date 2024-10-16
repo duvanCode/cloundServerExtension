@@ -24,23 +24,38 @@ const createHeader = (title) => {
     </div>`;
 };
 
-const createInput = (placeholder, type = "text") => {
-    return `<input class="form-input" placeholder="${placeholder}" aria-label="${placeholder}" type="${type}" required>`;
+const createInput = (placeholder,id, type = "text") => {
+    return `<input  id="${id}"class="form-input" placeholder="${placeholder}" aria-label="${placeholder}" type="${type}" required>`;
 };
 
-const createButton = (label, className = "btn-submit", type = "submit") => {
-    return `<button class="${className}" type="${type}">${label}</button>`;
+const createButton = (label, id, className = "btn-submit", type = "submit") => {
+    return `<button id="${id}" class="${className}" type="${type}">${label}</button>`;
 };
 
 const createFormFolder = () => {
     return `
     <div class="form-container">
+        <form id="createFolderForm">
         ${createHeader("Create Folder")}
-        ${createInput("Name")}
-        ${createButton("Create")}
+        ${createInput("Name",'nameFolder')}
+        ${createButton("Create",'submit')}
+        <form>
     </div>
     `;
 };
 
+const createMenuFolder = (pathID) => {
+    const menuHTML = `
+    <div id="context-menu" class="context-menu">
+        <ul>
+            <li id="delete-folder" data-path="${pathID}">Borrar <i class="fa-solid fa-delete-left"></i></li>
+        </ul>
+    </div>
+    `;
 
-export { createDirectoryHTML, migaHTML,createFormFolder };
+    const template = document.createRange().createContextualFragment(menuHTML);
+
+    return template.firstElementChild;
+};
+
+export { createDirectoryHTML, migaHTML,createFormFolder,createMenuFolder };

@@ -30,4 +30,19 @@ const eventToggleMenuButtons = (config) => {
 
 };
 
-export { eventToggleMenuButtons };
+
+const eventBlurElement = (config) =>
+{
+    let elementID = config?.elementID;
+    let element = document.querySelector(elementID);
+    element.setAttribute('tabindex', '0');
+    element.focus();
+
+    element.addEventListener('blur', () => {
+        setTimeout(() => {
+            element.remove();
+        }, 150);
+    });
+}
+
+export { eventToggleMenuButtons, eventBlurElement };

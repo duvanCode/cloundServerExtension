@@ -1,9 +1,9 @@
 import { cargando, getUserInfo, logout, validateSession, getMyToken } from './../login/login.lib.js';
 import { createElementLoading } from './../login/login.components.js';
 import { getInitials, getCapitalice } from './../utils/string.methods.js';
-import { eventToggleMenuButtons } from './../utils/generic.methods.js';
+import { eventToggleMenuButtons, eventBlurElement } from './../utils/generic.methods.js';
 import { service, getUrlApi } from '../services/general.service.js';
-import { migaHTML,createDirectoryHTML,createFormFolder } from './home.components.js';
+import { migaHTML,createDirectoryHTML,createFormFolder,createMenuFolder } from './home.components.js';
 
 const loadDataUser = () => {
     let userInfo = getUserInfo();
@@ -77,6 +77,11 @@ const eventLoadDirectory = async (routeID = 0) => {
     }
     let contentDirecory = document.querySelector('#content-directory');
     contentDirecory.innerHTML = directorysHTML;
+
+    //evento click derecho
+    eventRightClickToDirectorys();
+    eventClickToDirectorys();
+
 }
 
 const getRouteNow = () => {
@@ -97,7 +102,6 @@ const eventClickToDirectorys = () => {
         directory.addEventListener('click', async (event) => {
             cargando(true);
             await eventLoadDirectory(directory.getAttribute('data-path'));
-            eventClickToDirectorys();
             addMigaPan({
                 "_id": directory.getAttribute('data-path'),
                 "name": directory.textContent
@@ -105,6 +109,71 @@ const eventClickToDirectorys = () => {
             eventMiga();
             cargando(false);
         });
+    }
+}
+
+const eventRightClickToDirectorys = () => {
+    let contentDirecory = document.querySelector('#content-directory');
+    let listDirectory = contentDirecory.querySelectorAll('.folder');
+
+    for (let directory of listDirectory) {
+        directory.addEventListener('contextmenu', async (event) => {
+            event.preventDefault();
+            let idPath = directory.getAttribute('data-path');
+            let menuContextual = createMenuFolder(idPath);
+            document.body.appendChild(menuContextual);
+            const menu = document.getElementById('context-menu');
+
+
+            const posX = event.clientX;
+            const posY = event.clientY;
+
+            menu.style.top = `${posY}px`;
+            menu.style.left = `${posX}px`;
+            menu.style.display = 'block'; // Mostrar el menú
+            
+            eventBlurElement({
+                elementID:'#context-menu'
+            });
+            eventClikDeleteFolder();
+        });
+    }
+}
+
+const eventClikDeleteFolder =  () => {
+    let deleteFolderElement = document.querySelector('#delete-folder');
+    let contextMenu = document.querySelector('#context-menu');
+    
+    deleteFolderElement.addEventListener('click',async (event)=>{
+        let idFolder = deleteFolderElement.getAttribute('data-path');
+        let fatherId = getFolderNow();
+        cargando(true);
+        await deleteFolder(idFolder);
+        await eventLoadDirectory(fatherId);
+        cargando(false);
+        contextMenu.remove();
+    });
+}
+
+const deleteFolder = async (folderID) => {
+    try {
+        let myToken = getMyToken();
+        if (myToken != null) {
+            let myRquest = {
+                url: getUrlApi() + "/api/directory/delete/"+folderID,
+                method: "DELETE",
+                body:{},
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + myToken
+                }
+            };
+            let result = await service(myRquest);
+            if (result?.success) return result;
+        }
+    } catch (e) {
+        console.log(e);
+        return {};
     }
 }
 
@@ -148,7 +217,6 @@ const eventMiga = () => {
         miga.addEventListener('click',async () => {
             cargando(true);
             await eventLoadDirectory(miga.getAttribute('data-path-li'));
-            eventClickToDirectorys();
             deleteAllAfterMigaPan(miga.getAttribute('data-path-li'));
             eventMiga();
             cargando(false);
@@ -172,6 +240,8 @@ const eventClickCreateFolder = () =>{
         let htmlForm = createFormFolder();
         pelicula.innerHTML = htmlForm;
         document.body.appendChild(pelicula);
+
+        eventSubmitFolder();
         eventCloseForm();
     });
 }
@@ -185,9 +255,67 @@ const eventCloseForm = () => {
     });
 }
 
+const getFolderNow = () => {
+    let migaContent = document.querySelector('#miga-pan');
+    let migas = migaContent.querySelectorAll('li');
+    let ultimaMiga = '';
+    for (let miga of migas) {
+        ultimaMiga = miga.getAttribute('data-path-li');
+    }
+    return ultimaMiga;
+}
+
+const createFolder = async (name) => {
+
+    try {
+        let fatherId = getFolderNow();
+        let myToken = getMyToken();
+        if (myToken != null) {
+            let myRquest = {
+                url: getUrlApi() + "/api/directory/create",
+                method: "POST",
+                body:{
+                    "fatherID":fatherId,
+                    "name":name,
+                    "type":"directory"
+                },
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + myToken
+                }
+            };
+            let result = await service(myRquest);
+            if (result?.success) return result;
+        }
+    } catch (e) {
+        console.log(e);
+        return {};
+    }
+}
+
+
+const eventSubmitFolder = async  () => {
+
+    document.getElementById('createFolderForm').addEventListener('submit',async function(e) {
+        e.preventDefault();
+
+        cargando(true);
+
+        let fatherId = getFolderNow();
+
+        const nameFolder = document.getElementById('nameFolder').value;
+
+        let response = await createFolder(nameFolder);
+
+        if(response?.success) await eventLoadDirectory(fatherId);
+
+        cargando(false);
+        cargando(false);
+    });
+}
+
 const initEventsClicks = () => {
     //eventos de miga de pan y directorios
-    eventClickToDirectorys();
     eventMiga();
 
     //eventos de avatar y logout
@@ -200,6 +328,7 @@ const initEventsClicks = () => {
     //evento crear carpeta y menu de abajo
     eventClickToMenuDown();
     eventClickCreateFolder();
+    
 
 }
 export { homeBySession, getDataRouteByID, eventLoadDirectory,getRouteNow,initEventsClicks };
