@@ -38,7 +38,6 @@ const validateSession = async () => {
     let myToken = getMyToken();
     if(myToken != null)
         {
-            console.log('legoo');
             let myRquest = {
                 url: getUrlApi() + "/api/user/info",
                 method:"GET",

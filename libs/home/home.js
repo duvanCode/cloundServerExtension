@@ -1,8 +1,3 @@
-import { homeBySession,eventLoadDirectory,initEventsClicks } from './home.lib.js';
-import { cargando } from '../login/login.lib.js';
+import homeEvents from './home.events.js';
 
-cargando(true);
-await homeBySession();
-await eventLoadDirectory();
-initEventsClicks();
-cargando(false);
+homeEvents.init();

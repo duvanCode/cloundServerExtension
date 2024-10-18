@@ -1,4 +1,2 @@
-import { logginBySession,eventSubmitLogin,cargando } from './login.lib.js';
-
-logginBySession();
-eventSubmitLogin();
+import loginEvents from './login.events.js';
+loginEvents.init();

@@ -218,7 +218,6 @@ const eventMiga = () => {
             cargando(true);
             await eventLoadDirectory(miga.getAttribute('data-path-li'));
             deleteAllAfterMigaPan(miga.getAttribute('data-path-li'));
-            eventMiga();
             cargando(false);
         });
     }
@@ -314,21 +313,4 @@ const eventSubmitFolder = async  () => {
     });
 }
 
-const initEventsClicks = () => {
-    //eventos de miga de pan y directorios
-    eventMiga();
-
-    //eventos de avatar y logout
-    eventClickToMenuAvatar();
-    eventLogout();
-
-    //cargar datos de usuario
-    loadDataUser();
-
-    //evento crear carpeta y menu de abajo
-    eventClickToMenuDown();
-    eventClickCreateFolder();
-    
-
-}
-export { homeBySession, getDataRouteByID, eventLoadDirectory,getRouteNow,initEventsClicks };
+export { homeBySession, getDataRouteByID, eventLoadDirectory,getRouteNow,eventMiga,eventClickToMenuAvatar,eventLogout,loadDataUser,eventClickToMenuDown,eventClickCreateFolder };
