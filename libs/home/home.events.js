@@ -1,4 +1,4 @@
-import { homeBySession, eventLoadDirectory, eventMiga, eventClickToMenuAvatar, eventLogout, loadDataUser, eventClickToMenuDown, eventClickCreateFolder } from './home.lib.js';
+import { homeBySession, eventLoadDirectory, eventMiga, eventClickToMenuAvatar, eventLogout, loadDataUser, eventClickToMenuDown, eventClickCreateFolder, eventHoverOnDropZone, eventHoverOffDropZone } from './home.lib.js';
 import { cargando } from '../login/login.lib.js';
 
 const homeEvents = {
@@ -35,7 +35,11 @@ const homeEvents = {
 
     },
 
-
+    //drop zone events
+    dropZoneEvents: () => {
+        eventHoverOnDropZone();
+        eventHoverOffDropZone();
+    },
     init: async function () {
         cargando(true);
         await this.requestEvents();
@@ -43,6 +47,7 @@ const homeEvents = {
         this.avatarEvents();
         this.userDataEvents();
         this.menuDownEvents();
+        this.dropZoneEvents();
         cargando(false);
     }
 };

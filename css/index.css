@@ -179,3 +179,6 @@ border-bottom: none;
     margin: 0;
 }
 
+#app.highlight {
+  border: solid 1px purple;
+}

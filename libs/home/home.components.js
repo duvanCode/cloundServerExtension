@@ -1,3 +1,4 @@
+import { parseToNode } from './../utils/generic.methods.js';
 const createDirectoryHTML = (directory) => {
     return `
     <div class="folder" data-path="${directory?._id ?? ''}">
@@ -53,9 +54,13 @@ const createMenuFolder = (pathID) => {
     </div>
     `;
 
-    const template = document.createRange().createContextualFragment(menuHTML);
-
-    return template.firstElementChild;
+    return parseToNode(menuHTML);
 };
 
-export { createDirectoryHTML, migaHTML,createFormFolder,createMenuFolder };
+const elementAddFile = () =>
+{
+    const menuHTML = '<i class="fa-regular fa-file" style="color: #e6f3ff;font-size: 100px;"></i>';    
+    return parseToNode(menuHTML);
+}
+
+export { createDirectoryHTML, migaHTML,createFormFolder,createMenuFolder, elementAddFile };

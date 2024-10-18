@@ -3,7 +3,7 @@ import { createElementLoading } from './../login/login.components.js';
 import { getInitials, getCapitalice } from './../utils/string.methods.js';
 import { eventToggleMenuButtons, eventBlurElement } from './../utils/generic.methods.js';
 import { service, getUrlApi } from '../services/general.service.js';
-import { migaHTML,createDirectoryHTML,createFormFolder,createMenuFolder } from './home.components.js';
+import { migaHTML,createDirectoryHTML,createFormFolder,createMenuFolder,elementAddFile } from './home.components.js';
 
 const loadDataUser = () => {
     let userInfo = getUserInfo();
@@ -313,4 +313,37 @@ const eventSubmitFolder = async  () => {
     });
 }
 
-export { homeBySession, getDataRouteByID, eventLoadDirectory,getRouteNow,eventMiga,eventClickToMenuAvatar,eventLogout,loadDataUser,eventClickToMenuDown,eventClickCreateFolder };
+
+const eventHoverOnDropZone = () => {
+
+    let dropArea = document.querySelector('#app');
+
+    ['dragenter', 'dragover'].forEach(eventName => {
+        dropArea.addEventListener(eventName,(e) => {
+            preventDefaults(e);
+            let pelicula = createElementLoading();
+            let elementAddFilea = elementAddFile();
+            pelicula.appendChild(elementAddFilea);
+            document.body.appendChild(pelicula);
+        });
+      });
+}
+
+const eventHoverOffDropZone = () => {
+
+    let dropArea = document.querySelector('#app');
+
+    ['dragleave','drop'].forEach(eventName => {
+        dropArea.addEventListener(eventName,(e) => {
+            preventDefaults(e);
+            cargando(false);
+        });
+      });
+}
+
+const preventDefaults = (e) =>{
+    e.preventDefault()
+    e.stopPropagation()
+}
+
+export { homeBySession, getDataRouteByID, eventLoadDirectory,getRouteNow,eventMiga,eventClickToMenuAvatar,eventLogout,loadDataUser,eventClickToMenuDown,eventClickCreateFolder, eventHoverOnDropZone, eventHoverOffDropZone };

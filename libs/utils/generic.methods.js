@@ -45,4 +45,10 @@ const eventBlurElement = (config) =>
     });
 }
 
-export { eventToggleMenuButtons, eventBlurElement };
+const parseToNode = (html) => {
+    const template = document.createRange().createContextualFragment(html);
+
+    return template.firstElementChild;
+};
+
+export { eventToggleMenuButtons, eventBlurElement, parseToNode };
