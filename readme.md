@@ -1,6 +1,6 @@
 # Clound Server
 
-El proyecto Clound Server, es una extensión de chorme que complementa una app con el objetivo de compartir archivos de manera repida y sencilla en cualquier pc o móvil, en cualquier momento y lugar solo con un sencillo logueo podrás tener tus archivos en cualquier lugar.
+El proyecto Clound Server, es una extensión de chorme que complementa una app con el objetivo de compartir archivos de manera rapida y sencilla en cualquier pc o móvil, en cualquier momento y lugar solo con un sencillo logueo podrás tener tus archivos en cualquier lugar.
 
 Está escrito en JS vanilla, presenta una interesante propuesta de arquitectura para front-end en JS vanilla.
 
