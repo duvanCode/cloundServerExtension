@@ -18,7 +18,7 @@ Está escrito en JS vanilla, presenta una interesante propuesta de arquitectura 
     git clone https://github.com/duvanCode/cloundServerExtension.git
     ```
 
-2. Abre tu navegador Chrome y navegador a `chrome://extensions`.
+2. Abre tu navegador Chrome y ve a `chrome://extensions`.
 
 3. Habilita la opción de desarrollador en la parte superior derecha.
 
