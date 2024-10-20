@@ -3,7 +3,7 @@ import { createElementLoading } from './../login/login.components.js';
 import { getInitials, getCapitalice } from './../utils/string.methods.js';
 import { eventToggleMenuButtons, eventBlurElement } from './../utils/generic.methods.js';
 import { service, getUrlApi } from '../services/general.service.js';
-import { migaHTML,createDirectoryHTML,createFormFolder,createMenuFolder,elementAddFile } from './home.components.js';
+import { migaHTML, createDirectoryHTML, createFormFolder, createMenuFolder, elementAddFile } from './home.components.js';
 
 const loadDataUser = () => {
     let userInfo = getUserInfo();
@@ -21,17 +21,17 @@ const eventLogout = () => {
 }
 
 const eventClickToMenuAvatar = () => {
-    
+
     eventToggleMenuButtons({
-        containerID:'#avatar-container',
-        childrenContainerID:'#logout-btn'
+        containerID: '#avatar-container',
+        childrenContainerID: '#logout-btn'
     });
 
 
     eventToggleMenuButtons({
-        containerID:'#user-avatar',
-        childrenContainerID:'#logout-btn',
-        click:false
+        containerID: '#user-avatar',
+        childrenContainerID: '#logout-btn',
+        click: false
     });
 
 };
@@ -89,7 +89,7 @@ const getRouteNow = () => {
     let migas = migaContent.querySelectorAll('li');
     let route = '';
     for (let miga of migas) {
-        route =  miga.getAttribute('data-path-li');
+        route = miga.getAttribute('data-path-li');
     }
     return route;
 }
@@ -131,20 +131,20 @@ const eventRightClickToDirectorys = () => {
             menu.style.top = `${posY}px`;
             menu.style.left = `${posX}px`;
             menu.style.display = 'block'; // Mostrar el menú
-            
+
             eventBlurElement({
-                elementID:'#context-menu'
+                elementID: '#context-menu'
             });
             eventClikDeleteFolder();
         });
     }
 }
 
-const eventClikDeleteFolder =  () => {
+const eventClikDeleteFolder = () => {
     let deleteFolderElement = document.querySelector('#delete-folder');
     let contextMenu = document.querySelector('#context-menu');
-    
-    deleteFolderElement.addEventListener('click',async (event)=>{
+
+    deleteFolderElement.addEventListener('click', async (event) => {
         let idFolder = deleteFolderElement.getAttribute('data-path');
         let fatherId = getFolderNow();
         cargando(true);
@@ -160,9 +160,9 @@ const deleteFolder = async (folderID) => {
         let myToken = getMyToken();
         if (myToken != null) {
             let myRquest = {
-                url: getUrlApi() + "/api/directory/delete/"+folderID,
+                url: getUrlApi() + "/api/directory/delete/" + folderID,
                 method: "DELETE",
-                body:{},
+                body: {},
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + myToken
@@ -191,7 +191,7 @@ const deleteAllAfterMigaPan = (migaID) => {
     //index
     let parent = migaSelected.parentNode;
     let children = Array.from(parent.children);
-    let index = children.indexOf(migaSelected); 
+    let index = children.indexOf(migaSelected);
 
     for (let miga of migas) {
 
@@ -200,9 +200,8 @@ const deleteAllAfterMigaPan = (migaID) => {
         let children2 = Array.from(parent2.children);
         let index2 = children2.indexOf(miga);
 
-        if(index2 > index)
-        {
-            miga.remove(); 
+        if (index2 > index) {
+            miga.remove();
         }
     }
 }
@@ -214,7 +213,7 @@ const eventMiga = () => {
     let migas = migaContent.querySelectorAll('li');
 
     for (let miga of migas) {
-        miga.addEventListener('click',async () => {
+        miga.addEventListener('click', async () => {
             cargando(true);
             await eventLoadDirectory(miga.getAttribute('data-path-li'));
             deleteAllAfterMigaPan(miga.getAttribute('data-path-li'));
@@ -226,16 +225,16 @@ const eventMiga = () => {
 
 const eventClickToMenuDown = () => {
     eventToggleMenuButtons({
-        containerID:'#menu-down',
-        childrenContainerID:'#btn-new-folder'
+        containerID: '#menu-down',
+        childrenContainerID: '#btn-new-folder'
     });
 };
 
 
-const eventClickCreateFolder = () =>{
+const eventClickCreateFolder = () => {
     let btnNewFolder = document.querySelector('#btn-new-folder');
     let pelicula = createElementLoading();
-    btnNewFolder.addEventListener('click',(e) => {
+    btnNewFolder.addEventListener('click', (e) => {
         let htmlForm = createFormFolder();
         pelicula.innerHTML = htmlForm;
         document.body.appendChild(pelicula);
@@ -248,7 +247,7 @@ const eventClickCreateFolder = () =>{
 
 const eventCloseForm = () => {
     let elemetClose = document.querySelector('#close-form');
-    elemetClose.addEventListener('click',(e)=>{
+    elemetClose.addEventListener('click', (e) => {
         let parent = document.querySelector('#peliculaCargando');
         parent.remove();
     });
@@ -273,10 +272,10 @@ const createFolder = async (name) => {
             let myRquest = {
                 url: getUrlApi() + "/api/directory/create",
                 method: "POST",
-                body:{
-                    "fatherID":fatherId,
-                    "name":name,
-                    "type":"directory"
+                body: {
+                    "fatherID": fatherId,
+                    "name": name,
+                    "type": "directory"
                 },
                 headers: {
                     'Content-Type': 'application/json',
@@ -293,9 +292,9 @@ const createFolder = async (name) => {
 }
 
 
-const eventSubmitFolder = async  () => {
+const eventSubmitFolder = async () => {
 
-    document.getElementById('createFolderForm').addEventListener('submit',async function(e) {
+    document.getElementById('createFolderForm').addEventListener('submit', async function (e) {
         e.preventDefault();
 
         cargando(true);
@@ -306,7 +305,7 @@ const eventSubmitFolder = async  () => {
 
         let response = await createFolder(nameFolder);
 
-        if(response?.success) await eventLoadDirectory(fatherId);
+        if (response?.success) await eventLoadDirectory(fatherId);
 
         cargando(false);
         cargando(false);
@@ -319,31 +318,28 @@ const eventHoverOnDropZone = () => {
     let dropArea = document.querySelector('#app');
 
     ['dragenter', 'dragover'].forEach(eventName => {
-        dropArea.addEventListener(eventName,(e) => {
+        dropArea.addEventListener(eventName, (e) => {
             preventDefaults(e);
-            let pelicula = createElementLoading();
-            let elementAddFilea = elementAddFile();
-            pelicula.appendChild(elementAddFilea);
-            document.body.appendChild(pelicula);
+            dropArea.style.background = 'rgba(0, 0, 0, 0.1)';
         });
-      });
+    });
 }
 
 const eventHoverOffDropZone = () => {
 
     let dropArea = document.querySelector('#app');
 
-    ['dragleave','drop'].forEach(eventName => {
-        dropArea.addEventListener(eventName,(e) => {
+    ['dragleave', 'drop'].forEach(eventName => {
+        dropArea.addEventListener(eventName, (e) => {
             preventDefaults(e);
-            cargando(false);
+            dropArea.style.background = 'transparent';
         });
-      });
+    });
 }
 
-const preventDefaults = (e) =>{
+const preventDefaults = (e) => {
     e.preventDefault()
     e.stopPropagation()
 }
 
-export { homeBySession, getDataRouteByID, eventLoadDirectory,getRouteNow,eventMiga,eventClickToMenuAvatar,eventLogout,loadDataUser,eventClickToMenuDown,eventClickCreateFolder, eventHoverOnDropZone, eventHoverOffDropZone };
+export { homeBySession, getDataRouteByID, eventLoadDirectory, getRouteNow, eventMiga, eventClickToMenuAvatar, eventLogout, loadDataUser, eventClickToMenuDown, eventClickCreateFolder, eventHoverOnDropZone, eventHoverOffDropZone };

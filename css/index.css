@@ -180,5 +180,22 @@ border-bottom: none;
 }
 
 #app.highlight {
-  border: solid 1px purple;
+    border: solid 1px purple;
+}
+
+#peliculaHoverFile
+{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.17);
+    top: 0px; backdrop-filter: blur(1.5px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.fa-file
+{
+    color: #e6f3ff;font-size: 100px;
 }
