@@ -1,9 +1,9 @@
-import { cargando, getUserInfo, logout, validateSession, getMyToken } from './../login/login.lib.js';
+import { cargando, getUserInfo, logout, validateSession, getMyToken,getOrCreateTokenFile } from './../login/login.lib.js';
 import { createElementLoading } from './../login/login.components.js';
 import { getInitials, getCapitalice } from './../utils/string.methods.js';
 import { eventToggleMenuButtons, eventBlurElement } from './../utils/generic.methods.js';
-import { service, getUrlApi } from '../services/general.service.js';
-import { migaHTML, createDirectoryHTML, createFormFolder, createMenuFolder, elementAddFile } from './home.components.js';
+import { service, getUrlApi,getUrlApiFiles } from '../services/general.service.js';
+import { migaHTML, createDirectoryHTML, createFormFolder, createMenuFolder, createImagenHTML } from './home.components.js';
 
 const loadDataUser = () => {
     let userInfo = getUserInfo();
@@ -72,7 +72,12 @@ const eventLoadDirectory = async (routeID = 0) => {
     let directorysHTML = '';
     if (data.data.length > 0) {
         data.data.forEach(directory => {
-            directorysHTML += createDirectoryHTML(directory);
+            if(directory.type == 'file')
+            {
+                directorysHTML += createImagenHTML(directory);
+            } else {
+                directorysHTML += createDirectoryHTML(directory);
+            }
         });
     }
     let contentDirecory = document.querySelector('#content-directory');
@@ -114,7 +119,7 @@ const eventClickToDirectorys = () => {
 
 const eventRightClickToDirectorys = () => {
     let contentDirecory = document.querySelector('#content-directory');
-    let listDirectory = contentDirecory.querySelectorAll('.folder');
+    let listDirectory = contentDirecory.querySelectorAll('.folder, .imagen-folder');
 
     for (let directory of listDirectory) {
         directory.addEventListener('contextmenu', async (event) => {
@@ -291,6 +296,36 @@ const createFolder = async (name) => {
     }
 }
 
+const createFile = async (name,fileID,fileURL) => {
+
+    try {
+        let fatherId = getFolderNow();
+        let myToken = getMyToken();
+        if (myToken != null) {
+            let myRquest = {
+                url: getUrlApi() + "/api/directory/create",
+                method: "POST",
+                body: {
+                    "fatherID": fatherId,
+                    "name": name,
+                    "type": "file",
+                    "fileID":fileID,
+                    "fileUrl":fileURL
+                },
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + myToken
+                }
+            };
+            let result = await service(myRquest);
+            if (result?.success) return result;
+        }
+    } catch (e) {
+        console.log(e);
+        return {};
+    }
+}
+
 
 const eventSubmitFolder = async () => {
 
@@ -337,9 +372,57 @@ const eventHoverOffDropZone = () => {
     });
 }
 
+const eventDropFile = () => {
+    let dropArea = document.querySelector('#app');
+    dropArea.addEventListener('drop',async (e) => {
+        cargando(true);
+        const files = e.dataTransfer.files;
+        let dataFile = await uploadFile(files);
+        console.log('dataFile',dataFile);
+        await createFile(dataFile.fileData.originalName,dataFile.fileData._id,dataFile.url);
+        let fatherId = getFolderNow();
+        await eventLoadDirectory(fatherId);
+        cargando(false);
+    });
+}
+
+const uploadFile = async (files) => {
+
+    try {
+
+        const myHeaders = new Headers();
+        let myToken = await getOrCreateTokenFile();
+        myHeaders.append('Authorization','Bearer ' + myToken);
+
+
+        const formData = new FormData();
+
+        for (let i = 0; i < files.length; i++) {
+            formData.append('file', files[i]);
+        }
+
+        if (myToken != null) {
+            let myRquest = {
+                url: getUrlApiFiles() + "/createFile",
+                method: "POST",
+                body: formData,
+                headers: myHeaders
+            };
+            console.log(myRquest);
+            let result = await service(myRquest);
+            console.log('service upload file',result);
+            if (result?.success) return result.data;
+        }
+    } catch (e) {
+        console.log(e);
+        return {};
+    }
+
+}
+
 const preventDefaults = (e) => {
     e.preventDefault()
     e.stopPropagation()
 }
 
-export { homeBySession, getDataRouteByID, eventLoadDirectory, getRouteNow, eventMiga, eventClickToMenuAvatar, eventLogout, loadDataUser, eventClickToMenuDown, eventClickCreateFolder, eventHoverOnDropZone, eventHoverOffDropZone };
+export { homeBySession, getDataRouteByID, eventLoadDirectory, getRouteNow, eventMiga, eventClickToMenuAvatar, eventLogout, loadDataUser, eventClickToMenuDown, eventClickCreateFolder, eventHoverOnDropZone, eventHoverOffDropZone, eventDropFile };

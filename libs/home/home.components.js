@@ -1,4 +1,6 @@
 import { parseToNode } from './../utils/generic.methods.js';
+
+
 const createDirectoryHTML = (directory) => {
     return `
     <div class="folder" data-path="${directory?._id ?? ''}">
@@ -7,6 +9,19 @@ const createDirectoryHTML = (directory) => {
     </div>
     `;
 }
+
+const createImagenHTML = (directory) => {
+    return `
+    <div class="imagen-folder" data-path="${directory?._id ?? ''}">
+
+        <a id="download-link" download="${directory?.dataFile?.fileUrl??''}"><img class="img-amp" src="${directory?.dataFile?.fileUrl??''}"></img></a>
+
+        <p>${directory?.name ?? ''}</p>
+    </div>
+    `;
+}
+
+
 
 const migaHTML = (directory) => {
     return `
@@ -46,6 +61,7 @@ const createFormFolder = () => {
 };
 
 const createMenuFolder = (pathID) => {
+
     const menuHTML = `
     <div id="context-menu" class="context-menu">
         <ul>
@@ -53,7 +69,7 @@ const createMenuFolder = (pathID) => {
         </ul>
     </div>
     `;
-
+    
     return parseToNode(menuHTML);
 };
 
@@ -63,4 +79,4 @@ const elementAddFile = () =>
     return parseToNode(menuHTML);
 }
 
-export { createDirectoryHTML, migaHTML,createFormFolder,createMenuFolder, elementAddFile };
+export { createDirectoryHTML, migaHTML,createFormFolder,createMenuFolder, elementAddFile, createImagenHTML };

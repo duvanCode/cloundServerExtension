@@ -199,3 +199,19 @@ border-bottom: none;
 {
     color: #e6f3ff;font-size: 100px;
 }
+
+.imagen-folder img {
+    max-width: 36px;
+    max-height: 200px;
+    width: auto;
+    height: auto;
+    display: block;
+    cursor: pointer;
+}
+
+.imagen-folder {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+}

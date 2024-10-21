@@ -1,10 +1,9 @@
-import { service,getUrlApi } from '../services/general.service.js';
-import { createElementImgLoading,createElementLoading } from './login.components.js';
+import { service, getUrlApi } from '../services/general.service.js';
+import { createElementImgLoading, createElementLoading } from './login.components.js';
 const cargando = (status) => {
     let submintButtom = document.querySelector('#submitBUTTON');
-    
-    if(status)
-    {
+
+    if (status) {
         let pelicula = createElementLoading();
         let elementLoadig = createElementImgLoading();
         pelicula.appendChild(elementLoadig);
@@ -20,14 +19,12 @@ const error = (status) => {
     let password = document.querySelector('#password');
     let username = document.querySelector('#username');
     let content = document.querySelector('#content');
-    
-    if(status)
-    {
+
+    if (status) {
         password.classList.add('error-input');
         username.classList.add('error-input');
         content.classList.remove('d-none');
-    } else 
-    {
+    } else {
         password.classList.remove('error-input');
         username.classList.remove('error-input');
         content.classList.add('d-none');
@@ -36,22 +33,21 @@ const error = (status) => {
 
 const validateSession = async () => {
     let myToken = getMyToken();
-    if(myToken != null)
-        {
-            let myRquest = {
-                url: getUrlApi() + "/api/user/info",
-                method:"GET",
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization':'Bearer '+ myToken
-                }
-            };
-            let result = await service(myRquest);
-            if(result?.success) setUserInfo(result.data);
-            if(result?.success) return result;
+    if (myToken != null) {
+        let myRquest = {
+            url: getUrlApi() + "/api/user/info",
+            method: "GET",
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + myToken
+            }
+        };
+        let result = await service(myRquest);
+        if (result?.success) setUserInfo(result.data);
+        if (result?.success) return result;
 
-            return false;
-        }
+        return false;
+    }
 
     return false;
 }
@@ -60,12 +56,63 @@ const getMyToken = () => {
     return localStorage.getItem('accessToken');
 }
 
+const getTokenUploadFile = () => {
+    return localStorage.getItem('accessTokenUpload');
+}
+
+const getOrCreateTokenFile = async () => {
+    try {
+        let myTokenUpload = getTokenUploadFile();
+
+        if (myTokenUpload == null) 
+        {
+            return await getTokenUpladFile();
+        }
+
+        return myTokenUpload;
+
+    } catch (e) {
+        console.log(e);
+        return null;
+    }
+}
+
+const getTokenUpladFile = async () => {
+
+    try {
+
+        let myToken = getMyToken();
+        if (myToken != null) {
+            let myRquest = {
+                url: getUrlApi() + "/api/file/getToken",
+                method: "GET",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + myToken
+                }
+            };
+            let result = await service(myRquest);
+            setTokenUploadFile(result.data.token);
+            if (result?.success) return result.data.token;
+
+            return '';
+        }
+        return '';
+    } catch (e) {
+        return '';
+    }
+}
+
 const setMyToken = (token) => {
-    return localStorage.setItem('accessToken',token);
+    return localStorage.setItem('accessToken', token);
+}
+const setTokenUploadFile = (token) => {
+    return localStorage.setItem('accessTokenUpload', token);
+
 }
 
 const getUserInfo = () => {
-    try{
+    try {
         return JSON.parse(localStorage.getItem('userInfo'));
 
     } catch (e) {
@@ -74,9 +121,8 @@ const getUserInfo = () => {
         return {};
     }
 }
-const setUserInfo = (userInfo) => 
-{
-    localStorage.setItem('userInfo',JSON.stringify(userInfo));
+const setUserInfo = (userInfo) => {
+    localStorage.setItem('userInfo', JSON.stringify(userInfo));
 }
 const logout = () => {
     localStorage.removeItem('accessToken');
@@ -87,35 +133,34 @@ const logginBySession = async () => {
 
     let token = getMyToken();
 
-    if(token != null)
-        {
-            window.location.href = "index.html";
-        } else {
-            logout();
-        };
+    if (token != null) {
+        window.location.href = "index.html";
+    } else {
+        logout();
+    };
 
 }
 
-const eventSubmitLogin = () => {    
-    document.getElementById('loginForm').addEventListener('submit',async function(e) {
+const eventSubmitLogin = () => {
+    document.getElementById('loginForm').addEventListener('submit', async function (e) {
         e.preventDefault();
         cargando(true);
-        
+
         const username = document.getElementById('username').value;
         const password = document.getElementById('password').value;
 
         let response = await service({
             url: getUrlApi() + '/api/login',
-            method:'POST',
-            body:{
-                username:username,
-                password:password
+            method: 'POST',
+            body: {
+                username: username,
+                password: password
             }
         });
 
         cargando(false);
 
-        if(!(response.success) || (response.data.length == 0)){
+        if (!(response.success) || (response.data.length == 0)) {
             error(true);
             return;
         } else {
@@ -126,4 +171,4 @@ const eventSubmitLogin = () => {
     });
 }
 
-export { cargando,error,getMyToken,validateSession,logginBySession,logout,setMyToken,setUserInfo,getUserInfo,eventSubmitLogin,createElementLoading };
+export { cargando, error, getMyToken, validateSession, logginBySession, logout, setMyToken, setUserInfo, getUserInfo, eventSubmitLogin, createElementLoading, getOrCreateTokenFile };

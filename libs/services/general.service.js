@@ -1,27 +1,41 @@
-const service = async (objectRequest) => 
-{
+const service = async (objectRequest) => {
     try {
-        const { body,method,headers,url } = objectRequest;
+
+        const { body, method, headers, url } = objectRequest;
         let requestFetch = {};
-    
-        requestFetch.method = method??"GET";
-        requestFetch.body = JSON.stringify(body)??"{}";
-        requestFetch.headers = headers??{};
- 
-        if(requestFetch.method == "GET")
-            {
-                delete requestFetch.body;
-            }
-            
-        if(Object.keys(requestFetch.headers).length === 0)
-            {
+
+        requestFetch.method = method ?? "GET";
+        
+        if(body instanceof FormData){
+            requestFetch.body = body;
+        } else {
+            requestFetch.body = JSON.stringify(body) ?? "{}";
+        }
+        
+        if(headers instanceof Headers)
+        {
+
+            requestFetch.headers = headers;
+
+        } else {
+
+            requestFetch.headers = headers ?? {};
+            if (Object.keys(requestFetch.headers).length === 0) {
                 requestFetch.headers = {
                     'Content-Type': 'application/json'
-                  };
-            }    
-    
-        let data = await (async () => (await (await fetch(url,requestFetch)).text()))()
+                };
+            }
+
+        }
+
+        if (requestFetch.method == "GET") {
+            delete requestFetch.body;
+        }    
+
+        let data = await (async () => (await (await fetch(url, requestFetch)).text()))()
+        
         return JSON.parse(data);
+
     } catch (e) {
         console.log("Error al consumir servicios");
         console.log(e);
@@ -32,6 +46,7 @@ const service = async (objectRequest) =>
 const getUrlApi = () => {
     return "https://cloundserverappback.onrender.com";
 }
-
-
-export { service,getUrlApi };
+const getUrlApiFiles = () => {
+    return "http://localhost:3000";
+}
+export { service, getUrlApi, getUrlApiFiles };
