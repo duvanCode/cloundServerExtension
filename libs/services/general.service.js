@@ -47,6 +47,6 @@ const getUrlApi = () => {
     return "https://cloundserverappback.onrender.com";
 }
 const getUrlApiFiles = () => {
-    return "http://localhost:3000";
+    return "https://cloundserver.onrender.com";
 }
 export { service, getUrlApi, getUrlApiFiles };
