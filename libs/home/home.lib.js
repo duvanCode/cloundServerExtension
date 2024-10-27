@@ -1,4 +1,4 @@
-import { cargando, getUserInfo, logout, validateSession, getMyToken,getOrCreateTokenFile } from './../login/login.lib.js';
+import { cargando, getUserInfo, logout, validateSession, getMyToken,getOrCreateTokenFile,getTokenUpladFile } from './../login/login.lib.js';
 import { createElementLoading } from './../login/login.components.js';
 import { getInitials, getCapitalice } from './../utils/string.methods.js';
 import { eventToggleMenuButtons, eventBlurElement } from './../utils/generic.methods.js';
@@ -70,7 +70,7 @@ const getDataRouteByID = async (routeID = 0) => {
 const eventLoadDirectory = async (routeID = 0) => {
     let data = await getDataRouteByID(routeID);
     let directorysHTML = '';
-    if (data.data.length > 0) {
+    if (data.data?.length > 0) {
         data.data.forEach(directory => {
             if(directory.type == 'file')
             {
@@ -378,10 +378,13 @@ const eventDropFile = () => {
         cargando(true);
         const files = e.dataTransfer.files;
         let dataFile = await uploadFile(files);
-        console.log('dataFile',dataFile);
-        await createFile(dataFile.fileData.originalName,dataFile.fileData._id,dataFile.url);
-        let fatherId = getFolderNow();
-        await eventLoadDirectory(fatherId);
+        
+        if(dataFile?.fileData?.originalName && dataFile?.fileData?._id && dataFile.url)
+        {
+            await createFile(dataFile.fileData.originalName,dataFile.fileData._id,dataFile.url);
+            let fatherId = getFolderNow();
+            await eventLoadDirectory(fatherId);
+        }
         cargando(false);
     });
 }
@@ -410,10 +413,12 @@ const uploadFile = async (files) => {
             };
             console.log(myRquest);
             let result = await service(myRquest);
-            console.log('service upload file',result);
             if (result?.success) return result.data;
+            if (!result?.success) await getTokenUpladFile();
         }
     } catch (e) {
+        await getTokenUpladFile();
+        cargando(false);
         console.log(e);
         return {};
     }

@@ -1,6 +1,8 @@
 import { service, getUrlApi } from '../services/general.service.js';
 import { createElementImgLoading, createElementLoading } from './login.components.js';
-const cargando = (status) => {
+
+
+const cargando = (status,objectFeedBack = {}) => {
     let submintButtom = document.querySelector('#submitBUTTON');
 
     if (status) {
@@ -10,7 +12,32 @@ const cargando = (status) => {
         document.body.appendChild(pelicula);
     } else {
         let pelicula = document.querySelector('#peliculaCargando');
-        pelicula.remove();
+        if(Object.values(objectFeedBack).length > 0)
+        {   
+            let imagen = pelicula.querySelector('img');
+            imagen.classList.remove('spinner');
+            imagen.style.height = '100px';
+            imagen.style.width = '100px';
+            if(objectFeedBack?.success)
+            {
+                imagen.setAttribute('src','images/nice.svg');   
+            } else {
+                imagen.setAttribute('src','images/error.svg');
+            }
+            let elementMsj = document.createElement('h5');
+            elementMsj.innerText = objectFeedBack?.mjs??'';
+            elementMsj.style.margin = '10px';
+            elementMsj.style.color = '#5f5656';
+            pelicula.appendChild(elementMsj);
+            
+            setTimeout(() => {
+                pelicula.remove();
+            },1000);
+        } else {
+            pelicula.remove();
+        }
+
+    
     }
 
 }
@@ -171,4 +198,4 @@ const eventSubmitLogin = () => {
     });
 }
 
-export { cargando, error, getMyToken, validateSession, logginBySession, logout, setMyToken, setUserInfo, getUserInfo, eventSubmitLogin, createElementLoading, getOrCreateTokenFile };
+export { cargando, error, getMyToken, validateSession, logginBySession, logout, setMyToken, setUserInfo, getUserInfo, eventSubmitLogin, createElementLoading, getOrCreateTokenFile, getTokenUpladFile };

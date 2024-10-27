@@ -9,6 +9,7 @@ const createElementLoading = () => {
     pelicula.style['display'] = 'flex';
     pelicula.style['justify-content'] = 'center';
     pelicula.style['align-items'] = 'center';
+    pelicula.style['flex-direction'] = 'column';
     pelicula.id = 'peliculaCargando';
 
     return pelicula;

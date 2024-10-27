@@ -49,7 +49,11 @@ const homeEvents = {
         this.userDataEvents();
         this.menuDownEvents();
         this.dropZoneEvents();
-        cargando(false);
+
+        cargando(false,{
+            "success":true,
+            "mjs":"Logueado con éxito"
+        });
     }
 };
 
