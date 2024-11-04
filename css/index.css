@@ -75,6 +75,10 @@ body {
     grid-template-columns: repeat(3, 1fr);
     gap: 15px;
 }
+.other-file{
+    text-align: center;
+    cursor: pointer;
+}
 .folder {
     text-align: center;
     cursor: pointer;
@@ -197,7 +201,8 @@ border-bottom: none;
 
 .fa-file
 {
-    color: #cbe6ff;font-size: 100px;
+    font-size: 40px;
+    color: #4d94ff;
 }
 
 .imagen-folder img {

@@ -76,6 +76,7 @@ const createMenuFolder = (pathID) => {
     <div id="context-menu" class="context-menu">
         <ul>
             <li id="delete-folder" data-path="${pathID}">Borrar <i class="fa-solid fa-delete-left"></i></li>
+            <li id="download-folder" data-path="${pathID}">Descargar <i class="fa-solid fa-download"></i></li>
         </ul>
     </div>
     `;
@@ -88,7 +89,6 @@ const elementAddFile = () =>
     const menuHTML = '<i class="fa-regular fa-file" style="color: #e6f3ff;font-size: 100px;"></i>';    
     return parseToNode(menuHTML);
 }
-
 
 const getImgPreview = (src) =>
 {
@@ -108,6 +108,15 @@ const getImgPreview = (src) =>
         `;    
     return parseToNode(menuHTML);
 }
+
+const otherFileHTML = (directory) => {
+    return `
+    <div class="other-file" url="${directory?.dataFile?.fileUrl??''}">
+        <i class="fa-solid fa-file"></i>
+        <p class="text-overflow" >${directory?.name ?? ''}</p>
+    </div>
+    `;
+}
     
 
-export { createDirectoryHTML, migaHTML,createFormFolder,createMenuFolder, elementAddFile, createImagenHTML, getImgPreview };
+export { createDirectoryHTML, migaHTML,createFormFolder,createMenuFolder, elementAddFile, createImagenHTML, getImgPreview, otherFileHTML };

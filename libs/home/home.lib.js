@@ -3,7 +3,7 @@ import { createElementLoading } from './../login/login.components.js';
 import { getInitials, getCapitalice } from './../utils/string.methods.js';
 import { eventToggleMenuButtons, eventBlurElement } from './../utils/generic.methods.js';
 import { service, getUrlApi,getUrlApiFiles } from '../services/general.service.js';
-import { migaHTML, createDirectoryHTML, createFormFolder, createMenuFolder, createImagenHTML, getImgPreview } from './home.components.js';
+import { migaHTML, createDirectoryHTML, createFormFolder, createMenuFolder, createImagenHTML, getImgPreview, otherFileHTML } from './home.components.js';
 import controllerLang  from './../utils/lang.controller.js';
 
 
@@ -69,25 +69,68 @@ const getDataRouteByID = async (routeID = 0) => {
 }
 
 
-const eventLoadDirectory = async (routeID = 0) => {
-    let data = await getDataRouteByID(routeID);
-    let directorysHTML = '';
-    if (data.data?.length > 0) {
-        data.data.forEach(directory => {
-            if(directory.type == 'file')
-            {
-                directorysHTML += createImagenHTML(directory);
-            } else {
-                directorysHTML += createDirectoryHTML(directory);
-            }
-        });
+const rutaMimeType = {
+    "imagenes":["image/png"]
+};
+
+const rutaByType = {
+    "imagenes":(directory) => {
+        return createImagenHTML(directory);
+    },
+    "other":(directory) => {
+        return otherFileHTML(directory);
     }
-    let contentDirecory = document.querySelector('#content-directory');
-    contentDirecory.innerHTML = directorysHTML;
+};
+
+const getcategoryByMimeType = (mimetype) => {
+
+    let category = '';
+    Object.keys(rutaMimeType).forEach(key => {
+        if(rutaMimeType[key].includes(mimetype)) category = key;
+    });
+    return category;
+
+}
+
+const processFiles = (directory) => {
+
+    const call = rutaByType[getcategoryByMimeType(directory.dataFile.mimeType)];
+
+    if(typeof call == 'function') {
+        
+        return call(directory);
+        
+    } else {
+
+        const other = rutaByType["other"];
+
+        return other(directory);
+
+    }
+}
+
+const eventLoadDirectory = async (routeID = 0) => {
+
+    let data = await getDataRouteByID(routeID);
+
+    let directorysHTML = '';
+
+    if (data.data?.length > 0) {
+
+        data.data.forEach(directory => {
+
+            if(directory.type == 'directory') directorysHTML += createDirectoryHTML(directory);
+    
+            if(directory.type == 'file') directorysHTML += processFiles(directory);
+            
+        });
+
+    };
+    
+    document.querySelector('#content-directory').innerHTML = directorysHTML;
 
     //footer text
-    let textFooter = await getTextFooter(data);
-    setTextFooter(textFooter);
+    setTextFooter(await getTextFooter(data));
 
     //event preview iamges
     previewImages();
@@ -145,7 +188,7 @@ const eventClickToDirectorys = () => {
 
 const eventRightClickToDirectorys = () => {
     let contentDirecory = document.querySelector('#content-directory');
-    let listDirectory = contentDirecory.querySelectorAll('.folder, .imagen-folder');
+    let listDirectory = contentDirecory.querySelectorAll('.folder, .imagen-folder, .other-file');
 
     for (let directory of listDirectory) {
         directory.addEventListener('contextmenu', async (event) => {
@@ -154,7 +197,6 @@ const eventRightClickToDirectorys = () => {
             let menuContextual = createMenuFolder(idPath);
             document.body.appendChild(menuContextual);
             const menu = document.getElementById('context-menu');
-
 
             const posX = event.clientX;
             const posY = event.clientY;
