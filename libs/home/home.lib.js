@@ -3,7 +3,9 @@ import { createElementLoading } from './../login/login.components.js';
 import { getInitials, getCapitalice } from './../utils/string.methods.js';
 import { eventToggleMenuButtons, eventBlurElement } from './../utils/generic.methods.js';
 import { service, getUrlApi,getUrlApiFiles } from '../services/general.service.js';
-import { migaHTML, createDirectoryHTML, createFormFolder, createMenuFolder, createImagenHTML } from './home.components.js';
+import { migaHTML, createDirectoryHTML, createFormFolder, createMenuFolder, createImagenHTML, getImgPreview } from './home.components.js';
+import controllerLang  from './../utils/lang.controller.js';
+
 
 const loadDataUser = () => {
     let userInfo = getUserInfo();
@@ -83,12 +85,36 @@ const eventLoadDirectory = async (routeID = 0) => {
     let contentDirecory = document.querySelector('#content-directory');
     contentDirecory.innerHTML = directorysHTML;
 
+    //footer text
+    let textFooter = await getTextFooter(data);
+    setTextFooter(textFooter);
+
+    //event preview iamges
+    previewImages();
+    //evento load images
+    eventPreloadImages();
+
     //evento click derecho
     eventRightClickToDirectorys();
     eventClickToDirectorys();
 
 }
-
+const previewImages = () => {
+    let imagesContent = document.querySelectorAll('.imagen-folder');
+    for (let elementContentImg of imagesContent) {
+        elementContentImg.addEventListener('click',(event) => {
+            let pelicula = createElementLoading();
+            event.preventDefault();
+            let img = elementContentImg.querySelector('img');
+            let urlImage = img.getAttribute('src');
+            let imgToPelicula = getImgPreview(urlImage);
+            pelicula.appendChild(imgToPelicula);
+            document.body.appendChild(pelicula);
+            eventPreloadImages();
+            eventCloseForm();
+        });
+    }
+}
 const getRouteNow = () => {
     let migaContent = document.querySelector('#miga-pan');
     let migas = migaContent.querySelectorAll('li');
@@ -296,7 +322,7 @@ const createFolder = async (name) => {
     }
 }
 
-const createFile = async (name,fileID,fileURL) => {
+const createFile = async (name,fileID,fileURL,originalSize,mimeType) => {
 
     try {
         let fatherId = getFolderNow();
@@ -310,7 +336,9 @@ const createFile = async (name,fileID,fileURL) => {
                     "name": name,
                     "type": "file",
                     "fileID":fileID,
-                    "fileUrl":fileURL
+                    "fileUrl":fileURL,
+                    "originalSize":originalSize,
+                    "mimeType":mimeType
                 },
                 headers: {
                     'Content-Type': 'application/json',
@@ -381,7 +409,7 @@ const eventDropFile = () => {
         
         if(dataFile?.fileData?.originalName && dataFile?.fileData?._id && dataFile.url)
         {
-            await createFile(dataFile.fileData.originalName,dataFile.fileData._id,dataFile.url);
+            await createFile(dataFile?.fileData?.originalName??'',dataFile?.fileData?._id??'',dataFile?.url??'',dataFile?.fileData?.originalSize??'',dataFile?.fileData?.mimeType??'');
             let fatherId = getFolderNow();
             await eventLoadDirectory(fatherId);
         }
@@ -425,9 +453,65 @@ const uploadFile = async (files) => {
 
 }
 
+const setTextFooter = (text) => {
+    let footerElement = document.querySelector('#footer-text');
+    footerElement.innerHTML = text;
+}
+
+const getCountFiles = (data) => {
+    let directoryCount = 0;
+    let fileCount = 0;
+
+    for (let directoryInfo of data.data)
+    {
+        if(directoryInfo?.type == 'directory') directoryCount++;
+        if(directoryInfo?.type == 'file') fileCount++;  
+    }
+
+    return {
+        directoryCount,
+        fileCount,
+    }
+}
+
+const getTextFooter = async (data) => {
+
+    const  { directoryCount,fileCount } = getCountFiles(data);
+
+    let langModule = await controllerLang();
+    let textDirectoryCount = langModule["home"]["footer.directory-prural"]??'';
+    let textFileCount = langModule["home"]["footer.file-prural"]??'';
+
+    if(isSingular(directoryCount)) textDirectoryCount = langModule["home"]["footer.directory-prural"]??'';
+    if(isSingular(fileCount)) textFileCount = langModule["home"]["footer.file-prural"]??'';
+    
+    return `${directoryCount} ${textDirectoryCount} ${langModule["home"]["footer.separator"]??''} ${fileCount} ${textFileCount}`;
+
+}
+
+const isSingular = (length) => {
+    return length==1?true:false;
+}
+
 const preventDefaults = (e) => {
     e.preventDefault()
     e.stopPropagation()
 }
 
-export { homeBySession, getDataRouteByID, eventLoadDirectory, getRouteNow, eventMiga, eventClickToMenuAvatar, eventLogout, loadDataUser, eventClickToMenuDown, eventClickCreateFolder, eventHoverOnDropZone, eventHoverOffDropZone, eventDropFile };
+const eventPreloadImages = () => {
+    
+    let images = document.querySelectorAll('.img-amp');
+
+    for(let image of images) {
+        image.addEventListener('load', () => {
+            image.src = image.getAttribute('data-src');
+        });
+        
+        image.addEventListener('error', () => {
+            image.src = image.getAttribute('error-src');
+        });
+    }
+
+}
+
+export { homeBySession, getDataRouteByID, eventLoadDirectory, getRouteNow, eventMiga, eventClickToMenuAvatar, eventLogout, loadDataUser, eventClickToMenuDown, eventClickCreateFolder, eventHoverOnDropZone, eventHoverOffDropZone, eventDropFile, eventPreloadImages };

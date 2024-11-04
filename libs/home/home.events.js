@@ -41,6 +41,7 @@ const homeEvents = {
         eventHoverOffDropZone();
         eventDropFile();
     },
+
     init: async function () {
         cargando(true);
         await this.requestEvents();

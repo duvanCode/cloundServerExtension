@@ -5,18 +5,28 @@ const createDirectoryHTML = (directory) => {
     return `
     <div class="folder" data-path="${directory?._id ?? ''}">
         <i class="fas fa-folder"></i>
-        <p>${directory?.name ?? ''}</p>
+        <p class="text-overflow" >${directory?.name ?? ''}</p>
     </div>
     `;
 }
 
 const createImagenHTML = (directory) => {
+
+    let randomNum = Math.random(1,100);
+
     return `
-    <div class="imagen-folder" data-path="${directory?._id ?? ''}">
-
-        <a id="download-link" download="${directory?.dataFile?.fileUrl??''}"><img class="img-amp" src="${directory?.dataFile?.fileUrl??''}"></img></a>
-
-        <p>${directory?.name ?? ''}</p>
+    <div class="imagen-folder" data-path="${directory?._id ?? ''}" >
+        <a href="${directory?.dataFile?.fileUrl??''}">
+            <img
+                class="img-amp"
+                data-src="${directory?.dataFile?.fileUrl??''}"
+                src="./images/loading-image.svg?r=${randomNum}"
+                error-src="./images/loading-image.svg"
+                loading="lazy"
+                style="width: 36px;"
+            />
+        </a>
+        <p class="text-overflow" >${directory?.name ?? ''}</p>
     </div>
     `;
 }
@@ -79,4 +89,25 @@ const elementAddFile = () =>
     return parseToNode(menuHTML);
 }
 
-export { createDirectoryHTML, migaHTML,createFormFolder,createMenuFolder, elementAddFile, createImagenHTML };
+
+const getImgPreview = (src) =>
+{
+    let randomNum = Math.random(1,100);
+    const menuHTML = `
+        <div class="content-img-preview">
+            <i id="close-form" class="fa-solid fa-xmark" style="position: absolute;top: 10px;right: 10px;"></i>
+            <img
+                class="img-amp"
+                data-src="${src}"
+                src="./images/loading-image.svg?r=${randomNum}"
+                error-src="./images/loading-image.svg"
+                loading="lazy"
+                style="width: 100%;max-width: 300px;border-radius: 15px;padding: 0; margin: 0;"
+            />
+        </div>
+        `;    
+    return parseToNode(menuHTML);
+}
+    
+
+export { createDirectoryHTML, migaHTML,createFormFolder,createMenuFolder, elementAddFile, createImagenHTML, getImgPreview };

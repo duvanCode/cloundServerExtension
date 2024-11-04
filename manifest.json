@@ -17,6 +17,7 @@
         "http://localhost:3001/*",
         "http://localhost:3000/*",
         "https://cloundserverappback.onrender.com/*",
-        "https://cloundserver.onrender.com/*"
+        "https://cloundserver.onrender.com/*",
+        "https://cdn.jsdelivr.net/*"
     ]
 }

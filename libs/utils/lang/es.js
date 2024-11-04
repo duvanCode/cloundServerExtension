@@ -1,16 +1,20 @@
 const es = () => {
     return {
-        "home":{
-            "search.placeholder":"Search Cloud",
-            "search.aria-label":"Buscar en la nube",
-            "miga.aria-label":"Miga de pan",
-            "miga.home-name":"Inicio",
-            "footer.folders":"FOLDERS",
-            "footer.files":"FILES",
-            "footer.create-folder-title":"Create Folder",
-            "footer.create-folder-title":"Create Folder",
+        "home": {
+            "search.placeholder": "Buscar en la nube",
+            "search.aria-label": "Buscar en la nube",
+            "miga.aria-label": "Miga de pan",
+            "miga.home-name": "Inicio",
+            "footer.create-folder-title": "Crear Carpeta",
+            "footer.directory-singular": "CARPETA",
+            "footer.directory-prural": "CARPETAS",
+            "footer.file-prural": "ARCHIVOS",
+            "footer.file-singular": "ARCHIVO",
+            "footer.separator": "Y",
         }
     }
 }
 
-export default es;
+const lang = es;
+
+export default lang;
