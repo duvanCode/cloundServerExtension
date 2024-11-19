@@ -70,7 +70,20 @@ const getDataRouteByID = async (routeID = 0) => {
 
 
 const rutaMimeType = {
-    "imagenes":["image/png"]
+    "imagenes": [
+        "image/png",
+        "image/jpeg",
+        "image/jpg",
+        "image/gif",
+        "image/bmp",
+        "image/webp",
+        "image/svg+xml",
+        "image/tiff",
+        "image/vnd.microsoft.icon",
+        "image/heif",
+        "image/heic",
+        "image/avif"
+    ]
 };
 
 const rutaByType = {
@@ -194,7 +207,8 @@ const eventRightClickToDirectorys = () => {
         directory.addEventListener('contextmenu', async (event) => {
             event.preventDefault();
             let idPath = directory.getAttribute('data-path');
-            let menuContextual = createMenuFolder(idPath);
+            let urlFile = directory.getAttribute('url-file');
+            let menuContextual = createMenuFolder(idPath,urlFile);
             document.body.appendChild(menuContextual);
             const menu = document.getElementById('context-menu');
 
@@ -215,6 +229,7 @@ const eventRightClickToDirectorys = () => {
 
 const eventClikDeleteFolder = () => {
     let deleteFolderElement = document.querySelector('#delete-folder');
+    let downloadFolder = document.querySelector('#download-folder');
     let contextMenu = document.querySelector('#context-menu');
 
     deleteFolderElement.addEventListener('click', async (event) => {
@@ -224,6 +239,15 @@ const eventClikDeleteFolder = () => {
         await deleteFolder(idFolder);
         await eventLoadDirectory(fatherId);
         cargando(false);
+        contextMenu.remove();
+    });
+
+    downloadFolder.addEventListener('click',(e)=>{
+        let urlFile = e.target.getAttribute('url-file');
+        let elementA = document.createElement('a');
+        elementA.setAttribute('href',urlFile);
+        elementA.click();
+        console.log(elementA);
         contextMenu.remove();
     });
 }

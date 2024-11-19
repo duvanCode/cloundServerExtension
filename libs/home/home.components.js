@@ -15,7 +15,7 @@ const createImagenHTML = (directory) => {
     let randomNum = Math.random(1,100);
 
     return `
-    <div class="imagen-folder" data-path="${directory?._id ?? ''}" >
+    <div class="imagen-folder" data-path="${directory?._id ?? ''}"  url-file="${directory?.dataFile?.fileUrl??''}">
         <a href="${directory?.dataFile?.fileUrl??''}">
             <img
                 class="img-amp"
@@ -70,13 +70,13 @@ const createFormFolder = () => {
     `;
 };
 
-const createMenuFolder = (pathID) => {
+const createMenuFolder = (pathID,urlFile) => {
 
     const menuHTML = `
     <div id="context-menu" class="context-menu">
         <ul>
             <li id="delete-folder" data-path="${pathID}">Borrar <i class="fa-solid fa-delete-left"></i></li>
-            <li id="download-folder" data-path="${pathID}">Descargar <i class="fa-solid fa-download"></i></li>
+            <li id="download-folder" url-file="${urlFile}">Descargar <i class="fa-solid fa-download"></i></li>
         </ul>
     </div>
     `;
@@ -111,7 +111,7 @@ const getImgPreview = (src) =>
 
 const otherFileHTML = (directory) => {
     return `
-    <div class="other-file" url="${directory?.dataFile?.fileUrl??''}">
+    <div class="other-file" data-path="${directory?._id ?? ''}" url-file="${directory?.dataFile?.fileUrl??''}">
         <i class="fa-solid fa-file"></i>
         <p class="text-overflow" >${directory?.name ?? ''}</p>
     </div>
