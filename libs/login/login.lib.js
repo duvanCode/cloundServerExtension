@@ -198,4 +198,12 @@ const eventSubmitLogin = () => {
     });
 }
 
-export { cargando, error, getMyToken, validateSession, logginBySession, logout, setMyToken, setUserInfo, getUserInfo, eventSubmitLogin, createElementLoading, getOrCreateTokenFile, getTokenUpladFile };
+const classToLogin = () => {
+    let a = isExtension();
+    if(!a){
+        document.querySelector("#app").style = "height: 100vh;width: auto;padding: 0;";
+    }
+}
+
+
+export { cargando, error, getMyToken, validateSession, logginBySession, logout, setMyToken, setUserInfo, getUserInfo, eventSubmitLogin, createElementLoading, getOrCreateTokenFile, getTokenUpladFile,classToLogin };

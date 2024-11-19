@@ -51,4 +51,17 @@ const parseToNode = (html) => {
     return template.firstElementChild;
 };
 
-export { eventToggleMenuButtons, eventBlurElement, parseToNode };
+
+const isExtension = () => {
+
+    if (typeof chrome !== 'undefined' && chrome.runtime && chrome.runtime.id) {
+      return true;
+    } else if (typeof browser !== 'undefined' && browser.runtime && browser.runtime.id) {
+      return true;
+    } else {
+      return false;
+    }
+
+}
+
+export { eventToggleMenuButtons, eventBlurElement, parseToNode, isExtension };

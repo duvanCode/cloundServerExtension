@@ -1,7 +1,7 @@
 import { cargando, getUserInfo, logout, validateSession, getMyToken,getOrCreateTokenFile,getTokenUpladFile } from './../login/login.lib.js';
 import { createElementLoading } from './../login/login.components.js';
 import { getInitials, getCapitalice } from './../utils/string.methods.js';
-import { eventToggleMenuButtons, eventBlurElement } from './../utils/generic.methods.js';
+import { eventToggleMenuButtons, eventBlurElement,isExtension } from './../utils/generic.methods.js';
 import { service, getUrlApi,getUrlApiFiles } from '../services/general.service.js';
 import { migaHTML, createDirectoryHTML, createFormFolder, createMenuFolder, createImagenHTML, getImgPreview, otherFileHTML } from './home.components.js';
 import controllerLang  from './../utils/lang.controller.js';
@@ -580,4 +580,11 @@ const eventPreloadImages = () => {
 
 }
 
-export { homeBySession, getDataRouteByID, eventLoadDirectory, getRouteNow, eventMiga, eventClickToMenuAvatar, eventLogout, loadDataUser, eventClickToMenuDown, eventClickCreateFolder, eventHoverOnDropZone, eventHoverOffDropZone, eventDropFile, eventPreloadImages };
+const classToDesktop = () => {
+    
+    if(!isExtension()){
+        document.querySelector("#app").style = "height: 100vh;width: auto;";
+    }
+}
+
+export { homeBySession, getDataRouteByID, eventLoadDirectory, getRouteNow, eventMiga, eventClickToMenuAvatar, eventLogout, loadDataUser, eventClickToMenuDown, eventClickCreateFolder, eventHoverOnDropZone, eventHoverOffDropZone, eventDropFile, eventPreloadImages,classToDesktop };

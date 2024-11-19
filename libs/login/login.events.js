@@ -1,4 +1,4 @@
-import { logginBySession, eventSubmitLogin } from './login.lib.js';
+import { logginBySession, eventSubmitLogin,classToLogin } from './login.lib.js';
 
 const loginEvents = {
     // Validación de token y sesión
@@ -16,6 +16,10 @@ const loginEvents = {
     // Registro por formulario
     eventSubmitRegister: () => {
         // Lógica para el registro de nuevos usuarios
+    },
+
+    classToLogin: () => {
+        classToLogin();
     },
 
     // Login o registro con OAuth (Google, Facebook, etc.)
@@ -37,6 +41,7 @@ const loginEvents = {
     },
 
     init: function () {
+        this.classToLogin();
         this.validateToken();
         this.eventSubmitLogin();
         this.eventSubmitRegister();

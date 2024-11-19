@@ -1,4 +1,4 @@
-import { homeBySession, eventLoadDirectory, eventMiga, eventClickToMenuAvatar, eventLogout, loadDataUser, eventClickToMenuDown, eventClickCreateFolder, eventHoverOnDropZone, eventHoverOffDropZone, eventDropFile } from './home.lib.js';
+import { homeBySession, eventLoadDirectory, eventMiga, eventClickToMenuAvatar, eventLogout, loadDataUser, eventClickToMenuDown, eventClickCreateFolder, eventHoverOnDropZone, eventHoverOffDropZone, eventDropFile,classToDesktop } from './home.lib.js';
 import { cargando } from '../login/login.lib.js';
 
 const homeEvents = {
@@ -42,8 +42,14 @@ const homeEvents = {
         eventDropFile();
     },
 
+
+    classToDesktop:() => {
+        classToDesktop();
+    },
+
     init: async function () {
         cargando(true);
+        this.classToDesktop();
         await this.requestEvents();
         this.breadcrumbEvents();
         this.avatarEvents();
