@@ -1,4 +1,4 @@
-import { service, getUrlApi } from '../services/general.service.js';
+import { service, getUrlApi,tester } from '../services/general.service.js';
 import { createElementImgLoading, createElementLoading } from './login.components.js';
 
 
