@@ -238,3 +238,13 @@ border-bottom: none;
     text-overflow: ellipsis;
     width: 92px;
 }
+
+
+/* Estilos para pantallas que NO son móviles */
+@media (min-width: 768px) {
+    .folder-grid {
+        grid-template-columns: repeat(10, 3fr);
+        gap: 10px;
+    }
+}
+  
