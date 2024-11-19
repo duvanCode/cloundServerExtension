@@ -1,4 +1,4 @@
-import { logginBySession, eventSubmitLogin,classToLogin } from './login.lib.js';
+import { logginBySession, eventSubmitLogin,classToLogin, cargando } from './login.lib.js';
 
 const loginEvents = {
     // Validación de token y sesión
@@ -41,6 +41,7 @@ const loginEvents = {
     },
 
     init: function () {
+        cargando(true);
         this.classToLogin();
         this.validateToken();
         this.eventSubmitLogin();
@@ -50,6 +51,8 @@ const loginEvents = {
         this.oauth.loginWithGitHub();
 
         this.qrLogin();
+        cargando(false);
+
     }
 };
 
