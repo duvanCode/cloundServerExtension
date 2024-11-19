@@ -202,7 +202,7 @@ const eventSubmitLogin = () => {
 const classToLogin = () => {
     let a = isExtension();
     if(!a){
-        document.querySelector("#app").style = "height: 100vh;width: auto;padding: 0;";
+        document.querySelector("#login-form").style = "height: 100vh;width: auto;padding: 0;";
     }
 }
 
