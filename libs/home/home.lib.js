@@ -245,9 +245,13 @@ const eventClikDeleteFolder = () => {
     downloadFolder.addEventListener('click',(e)=>{
         let urlFile = e.target.getAttribute('url-file');
         let elementA = document.createElement('a');
+        
+        elementA.setAttribute('download', '');
+        elementA.setAttribute('class', 'd-none');
+        document.body.appendChild(elementA); 
         elementA.setAttribute('href',urlFile);
         elementA.click();
-        console.log(elementA);
+        document.body.removeChild(elementA);
         contextMenu.remove();
     });
 }
