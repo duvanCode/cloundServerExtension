@@ -18,6 +18,7 @@
         "http://localhost:3000/*",
         "https://cloundserverappback.onrender.com/*",
         "https://cloundserver.onrender.com/*",
+        "https://telegram.ondeploy.space/*",
         "https://cdn.jsdelivr.net/*"
     ]
 }

@@ -30,7 +30,7 @@ const service = async (objectRequest) => {
 
         if (requestFetch.method == "GET") {
             delete requestFetch.body;
-        }    
+        }
 
         let data = await (async () => (await (await fetch(url, requestFetch)).text()))()
         
@@ -44,9 +44,9 @@ const service = async (objectRequest) => {
 }
 
 const getUrlApi = () => {
-    return "https://cloundserverappback.onrender.com";
+    return "https://cloudserver.ondeploy.space";
 }
 const getUrlApiFiles = () => {
-    return "https://cloundserver.onrender.com";
+    return "https://telegram.ondeploy.space";
 }
 export { service, getUrlApi, getUrlApiFiles };

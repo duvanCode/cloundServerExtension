@@ -23,7 +23,6 @@ const createImagenHTML = (directory) => {
                 src="./images/loading-image.svg?r=${randomNum}"
                 error-src="./images/loading-image.svg"
                 loading="lazy"
-                style="width: 36px;"
             />
         </a>
         <p class="text-overflow" >${directory?.name ?? ''}</p>
@@ -102,7 +101,7 @@ const getImgPreview = (src) =>
                 src="./images/loading-image.svg?r=${randomNum}"
                 error-src="./images/loading-image.svg"
                 loading="lazy"
-                style="width: 100%;max-width: 300px;border-radius: 15px;padding: 0; margin: 0;"
+                style="width: 100%;border-radius: 15px;padding: 0; margin: 0;max-height:90vh;min-height:50vh;"
             />
         </div>
         `;    

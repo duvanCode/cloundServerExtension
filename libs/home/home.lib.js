@@ -479,7 +479,7 @@ const eventDropFile = () => {
         
         if(dataFile?.fileData?.originalName && dataFile?.fileData?._id && dataFile.url)
         {
-            await createFile(dataFile?.fileData?.originalName??'',dataFile?.fileData?._id??'',dataFile?.url??'',dataFile?.fileData?.originalSize??'',dataFile?.fileData?.mimeType??'');
+            await createFile(dataFile?.fileData?.originalName??'',dataFile?.fileData?._id??'',dataFile?.url??'',dataFile?.fileData?.originalSize??'',dataFile?.fileData?.nimeType??'');
             let fatherId = getFolderNow();
             await eventLoadDirectory(fatherId);
         }
@@ -574,11 +574,15 @@ const eventPreloadImages = () => {
 
     for(let image of images) {
         image.addEventListener('load', () => {
+            if(image?.loaded == 'true') return;
             image.src = image.getAttribute('data-src');
+            image.loaded = 'true';
         });
         
         image.addEventListener('error', () => {
+            if(image?.loaded == 'true') return;
             image.src = image.getAttribute('error-src');
+            image.loaded = 'true';
         });
     }
 

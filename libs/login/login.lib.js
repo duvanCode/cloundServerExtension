@@ -188,11 +188,11 @@ const eventSubmitLogin = () => {
 
         cargando(false);
 
-        if (!(response.success) || (response.data.length == 0)) {
+        if (!(response?.success) || (response?.data?.length == 0)) {
             error(true);
             return;
         } else {
-            setMyToken(response.data.token);
+            setMyToken(response?.data?.token);
             window.location.href = "index.html";
         };
 

@@ -206,12 +206,11 @@ border-bottom: none;
 }
 
 .imagen-folder img {
-    width: 36px;
-    max-height: 200px;
-    width: auto;
+    width: 60px !important;
     height: auto;
     display: block;
     cursor: pointer;
+    height: 34px;
 }
 
 .imagen-folder {
