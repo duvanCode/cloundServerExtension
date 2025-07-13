@@ -49,13 +49,20 @@ const error = (status) => {
     let content = document.querySelector('#content');
 
     if (status) {
-        password.classList.add('error-input');
-        username.classList.add('error-input');
-        content.classList.remove('d-none');
+        password.classList.remove('border-gray-300');
+        username.classList.remove('border-gray-300');
+
+        password.classList.add('border-red-300');
+        username.classList.add('border-red-300');
+        content.classList.remove('hidden');
     } else {
-        password.classList.remove('error-input');
-        username.classList.remove('error-input');
-        content.classList.add('d-none');
+        password.classList.add('border-gray-300');
+        username.classList.add('border-gray-300');
+
+        password.classList.remove('border-red-300');
+        username.classList.remove('border-red-300');
+
+        content.classList.add('hidden');
     }
 }
 

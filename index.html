@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css">
     <link rel="stylesheet" href="css/index.css">
     <link rel="stylesheet" href="css/general.css">
+    <link href="css/output.css" rel="stylesheet">
+
 </head>
 
 <body>
@@ -22,7 +24,7 @@
                 <h4 id="avatar-container" class="avatar-container" >
                     <div id="user-avatar" class="avatar" title=""></div>
                 </h4>
-                <div class="menu-item  d-none" id="logout-btn">
+                <div class="menu-item  hidden" id="logout-btn">
                     <p class="m-0 p-0">Log out <i class="fa-solid fa-right-from-bracket logout-item"></i></p>
                 </div>
             </div>
@@ -40,11 +42,11 @@
             <span id="footer-text"></span>
             <button id="menu-down" class="add-button" aria-label="Añadir nuevo archivo">+</button>
         </div>
-        <div class="menu-down d-none" id="btn-new-folder">
+        <div class="menu-down hidden" id="btn-new-folder">
             <p class="m-0 p-0"><i class="fa-solid fa-folder-plus"></i></p>
         </div>
     </div>
-    <div id="peliculaHoverFile" class="d-none"> <i class="fa-regular fa-file"></i></div>
+    <div id="peliculaHoverFile" class="!hidden"> <i class="fa-regular fa-file"></i></div>
 
     <script type="module" src="libs/home/home.js"></script>
 
