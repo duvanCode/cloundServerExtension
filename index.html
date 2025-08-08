@@ -7,47 +7,51 @@
     <title>Gestor de Archivos</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css">
-    <link rel="stylesheet" href="css/index.css">
     <link rel="stylesheet" href="css/general.css">
     <link href="css/output.css" rel="stylesheet">
-
+    <script src="./libs/utils/tailwind.config.js"></script>
 </head>
 
-<body>
-    <div id="app">
-        <div class="header">
-            <div class="search-bar">
-                <input type="text" placeholder="Search Cloud" aria-label="Buscar en la nube">
+<body class="font-sans bg-blue-50 m-0 p-0 h-screen">
+    <div id="app" class="w-[300px] h-[400px]  bg-white rounded-lg shadow-lg overflow-hidden flex flex-col">
+        <div class="bg-blue-200 p-2 px-2 flex justify-between items-center">
+            <div class="flex-grow mr-2.5">
+                <button class="w-full p-1  rounded-full box-border text-sm flex justify-evenly items-center bg-white">
+                    <label for="seach_clound">
+                        <img src="./images/magnify-glass.svg" class="text-[#8b8ba7]" alt="Search" width="15px" height="15px" for="seach_clound">
+                    </label>
+                    <input id="seach_clound" type="text" placeholder="Search Cloud" aria-label="Buscar en la nube" class="focus:outline-none placeholder-[#8b8ba7]">
+                </button>
             </div>
-            <div class="storage">0GB</div>
-            <div class="avatar-container-father">
-                <h4 id="avatar-container" class="avatar-container" >
-                    <div id="user-avatar" class="avatar" title=""></div>
+            <div class="text-sm text-blue-500">0GB</div>
+            <div class="avatar-container-father w-10 relative">
+                <h4 id="avatar-container" class="avatar-container absolute -right-0.5 -top-4.5 m-auto" >
+                    <div id="user-avatar" class="avatar rounded-full h-8 w-8 bg-blue-100 border border-blue-300 flex justify-center items-center text-blue-500 text-sm font-bold" title=""></div>
                 </h4>
-                <div class="menu-item  hidden" id="logout-btn">
-                    <p class="m-0 p-0">Log out <i class="fa-solid fa-right-from-bracket logout-item"></i></p>
+                <div class="menu-item absolute top-3.5 right-0 px-2.5 py-2.5 flex items-center justify-between cursor-pointer bg-white rounded-full border-2 border-gray-300 w-15 text-gray-400 hover:bg-blue-100 hidden" id="logout-btn">
+                    <p class="m-0 p-0">Log out <i class="fa-solid fa-right-from-bracket logout-item ml-1"></i></p>
                 </div>
             </div>
         </div>
-        <nav class="breadcrumb" aria-label="Miga de pan">
-            <ol id="miga-pan">
-                <li data-path-li="0"><a href="#" data-path="0">Inicio</a></li>
+        <nav class="breadcrumb p-1 px-2 bg-blue-50 border-b border-blue-200" aria-label="Miga de pan">
+            <ol id="miga-pan" class="list-none p-0 m-0 flex flex-wrap">
+                <li data-path-li="0" class="inline text-sm after:content-['>'] after:mx-1 after:text-blue-500 last:after:content-[''] last:text-gray-700 last:pointer-events-none"><a href="#" data-path="0" class="text-blue-500 no-underline">Inicio</a></li>
             </ol>
         </nav>
-        <div class="content">
-            <div id="content-directory" class="folder-grid">
+        <div class="content pl-3 py-0 pt-1">
+            <div id="content-directory" class="folder-grid grid grid-cols-3 gap-4 md:grid-cols-20 md:gap-2.5 overflow-y-auto max-h-[72vh] overflow-x-hidden">
             </div>
         </div>
-        <div class="footer">
-            <span id="footer-text"></span>
-            <button id="menu-down" class="add-button" aria-label="Añadir nuevo archivo">+</button>
+        <div class="footer bg-blue-200 p-1 px-2 flex justify-between items-center mt-auto">
+            <span id="footer-text" class="font-sans"></span>
+            <button id="menu-down" class="add-button bg-blue-500 text-white border-none rounded-full w-6 h-6 text-sm cursor-pointer" aria-label="Añadir nuevo archivo">+</button>
         </div>
-        <div class="menu-down hidden" id="btn-new-folder">
-            <p class="m-0 p-0"><i class="fa-solid fa-folder-plus"></i></p>
+        <div class="menu-down menu-down absolute top-[84%] right-2.5  p-1.5 items-center justify-center cursor-pointer bg-white rounded-full border-2 border-gray-300 text-gray-400 h-8.5 hidden" id="btn-new-folder">
+            <p class="m-auto p-0"><i class="fa-solid fa-folder-plus"></i></p>
         </div>
     </div>
-    <div id="peliculaHoverFile" class="!hidden"> <i class="fa-regular fa-file"></i></div>
-
+    <div id="peliculaHoverFile" class="absolute h-full w-full bg-white/20 top-0 backdrop-blur-sm justify-center items-center !hidden"> <i class="fa-regular fa-file text-4xl text-blue-500"></i></div>
+    <div class=" w-15 block cursor-pointer h-8.5 flex flex-col justify-center items-center text-center cursor-pointer text-4xl text-blue-500 mt-[5px] mb-0 text-[0.85rem] text-left overflow-hidden whitespace-nowrap text-ellipsis w-[92px] md:w-32 lg:w-48 bg-[#cccccc6e] p-[15px] m-0 rounded-[20px] border border-[#ccc] relative fas text-gray-600 dark:text-gray-300 fa-sun !hidden"></div>
     <script type="module" src="libs/home/home.js"></script>
 
 </body>

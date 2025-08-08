@@ -3,44 +3,46 @@ import { createElementImgLoading, createElementLoading } from './login.component
 import { isExtension } from '../utils/generic.methods.js';
 
 
-const cargando = (status,objectFeedBack = {}) => {
-    let submintButtom = document.querySelector('#submitBUTTON');
-
+const cargando = (status, objectFeedBack = {}) => {
+    
+    // Siempre eliminar todas las películas de carga existentes
+    let peliculasExistentes = document.querySelectorAll('#peliculaCargando');
+    peliculasExistentes.forEach(pelicula => pelicula.remove());
+    
     if (status) {
         let pelicula = createElementLoading();
         let elementLoadig = createElementImgLoading();
         pelicula.appendChild(elementLoadig);
         document.body.appendChild(pelicula);
-    } else {
-        let pelicula = document.querySelector('#peliculaCargando');
-        if(Object.values(objectFeedBack).length > 0)
-        {   
-            let imagen = pelicula.querySelector('img');
-            imagen.classList.remove('spinner');
-            imagen.style.height = '100px';
-            imagen.style.width = '100px';
-            if(objectFeedBack?.success)
-            {
-                imagen.setAttribute('src','images/nice.svg');   
-            } else {
-                imagen.setAttribute('src','images/error.svg');
-            }
-            let elementMsj = document.createElement('h5');
-            elementMsj.innerText = objectFeedBack?.mjs??'';
-            elementMsj.style.margin = '10px';
-            elementMsj.style.color = '#5f5656';
-            pelicula.appendChild(elementMsj);
-            
-            setTimeout(() => {
-                pelicula.remove();
-            },1000);
+    } else if(Object.values(objectFeedBack).length > 0) {
+        // Crear una nueva película solo para mostrar el feedback
+        let pelicula = createElementLoading();
+        let elementLoadig = createElementImgLoading();
+        
+        elementLoadig.classList.remove('spinner');
+        elementLoadig.style.height = '100px';
+        elementLoadig.style.width = '100px';
+        
+        if(objectFeedBack?.success) {
+            elementLoadig.setAttribute('src','images/nice.svg');   
         } else {
-            pelicula.remove();
+            elementLoadig.setAttribute('src','images/error.svg');
         }
-
-    
+        
+        pelicula.appendChild(elementLoadig);
+        
+        let elementMsj = document.createElement('h5');
+        elementMsj.innerText = objectFeedBack?.mjs ?? '';
+        elementMsj.style.margin = '10px';
+        elementMsj.style.color = '#5f5656';
+        pelicula.appendChild(elementMsj);
+        
+        document.body.appendChild(pelicula);
+        
+        setTimeout(() => {
+            pelicula.remove();
+        }, 1000);
     }
-
 }
 
 const error = (status) => {
@@ -207,11 +209,53 @@ const eventSubmitLogin = () => {
 }
 
 const classToLogin = () => {
-    let a = isExtension();
-    if(!a){
+    let validateExtension = isExtension();
+    if(!validateExtension){
         document.querySelector(".login-form").style = "height: 100vh;width: auto;padding: 0;";
     }
 }
 
+const nightModeToggle = () => {
+    
+     const toggleButton = document.getElementById('nightModeToggle');
+        const icon = toggleButton.querySelector('i');
+        
+        const isDarkMode = localStorage.getItem('darkMode') === 'true';
+        
+        if (isDarkMode) {
+            document.documentElement.classList.add('dark');
+            icon.classList.remove('fa-moon');
+            icon.classList.add('fa-sun');
+        } else {
+            document.documentElement.classList.remove('dark');
+            icon.classList.remove('fa-sun');
+            icon.classList.add('fa-moon');
+        }
+        
+        toggleButton.addEventListener('click', () => {
+            const currentDarkMode = document.documentElement.classList.contains('dark');
+            
+            if (currentDarkMode) {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('darkMode', 'false');
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('darkMode', 'true');
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+            }
+        });
+}
 
-export { cargando, error, getMyToken, validateSession, logginBySession, logout, setMyToken, setUserInfo, getUserInfo, eventSubmitLogin, createElementLoading, getOrCreateTokenFile, getTokenUpladFile,classToLogin };
+
+const signup = () => {
+    let btnSignup = document.querySelector('#signup');
+
+    btnSignup.addEventListener('click',(e) => {
+        window.location.href = "register.html";
+    });
+
+}
+export { cargando, error, getMyToken, validateSession, logginBySession, logout, setMyToken, setUserInfo, getUserInfo, eventSubmitLogin, createElementLoading, getOrCreateTokenFile, getTokenUpladFile,classToLogin,nightModeToggle,signup };

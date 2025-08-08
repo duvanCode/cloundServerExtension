@@ -1,43 +1,42 @@
-import { logginBySession, eventSubmitLogin,classToLogin, cargando } from './login.lib.js';
+import { logginBySession, eventSubmitLogin,classToLogin, cargando,nightModeToggle,signup } from './login.lib.js';
+import { tailwindConfig } from '../utils/generic.methods.js';
 
 const loginEvents = {
-    // Validación de token y sesión
     validateToken: () => {
-        // Lógica para validar el token del usuario
         logginBySession();
     },
 
-    // Evento de login tradicional por formulario
     eventSubmitLogin: () => {
-        // Lógica para el evento de login (enviar formulario)
         eventSubmitLogin();
     },
 
-    // Registro por formulario
-    eventSubmitRegister: () => {
-        // Lógica para el registro de nuevos usuarios
-    },
 
     classToLogin: () => {
         classToLogin();
     },
 
-    // Login o registro con OAuth (Google, Facebook, etc.)
+    taildWindCss: () => {
+        tailwindConfig();
+    },
+
     oauth: {
         loginWithGoogle: () => {
-            // Lógica para login con Google
         },
         loginWithFacebook: () => {
-            // Lógica para login con Facebook
         },
         loginWithGitHub: () => {
-            // Lógica para login con GitHub
         }
     },
 
-    // Login mediante QR
     qrLogin: () => {
-        // Lógica para escanear y autenticar con QR
+    },
+
+    nightModeToggle: () => {
+       nightModeToggle();
+    },
+
+    signup: () => {
+        signup();
     },
 
     init: function () {
@@ -45,12 +44,11 @@ const loginEvents = {
         this.classToLogin();
         this.validateToken();
         this.eventSubmitLogin();
-        this.eventSubmitRegister();
-        this.oauth.loginWithGoogle();
-        this.oauth.loginWithFacebook();
-        this.oauth.loginWithGitHub();
 
-        this.qrLogin();
+        this.nightModeToggle();
+        this.taildWindCss();
+        this.signup();
+
         cargando(false);
 
     }

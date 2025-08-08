@@ -3,36 +3,33 @@ const eventToggleMenuButtons = (config) => {
     let containerID = config?.containerID;
     let childrenContainerID = config?.childrenContainerID;
 
-    let blur = config?.blur??true;
-    let click = config?.click??true;
+    let blur = config?.blur ?? true;
+    let click = config?.click ?? true;
 
     let container = document.querySelector(containerID);
     let containerChildren = document.querySelector(childrenContainerID);
 
-    if(blur)
-    {
+    if (blur) {
         container.setAttribute('tabindex', '0');
         container.addEventListener('blur', () => {
             setTimeout(() => {
-                containerChildren.classList.add('d-none');
+                containerChildren.classList.add('hidden');
             }, 150);
         });
     }
-    
 
-    if(click)
-    {
+
+    if (click) {
         container.addEventListener('click', (event) => {
-            containerChildren.classList.toggle('d-none');
-        });    
+            containerChildren.classList.toggle('hidden');
+        });
     }
-    
+
 
 };
 
 
-const eventBlurElement = (config) =>
-{
+const eventBlurElement = (config) => {
     let elementID = config?.elementID;
     let element = document.querySelector(elementID);
     element.setAttribute('tabindex', '0');
@@ -55,13 +52,27 @@ const parseToNode = (html) => {
 const isExtension = () => {
 
     if (typeof chrome !== 'undefined' && chrome.runtime && chrome.runtime.id) {
-      return true;
+        return true;
     } else if (typeof browser !== 'undefined' && browser.runtime && browser.runtime.id) {
-      return true;
+        return true;
     } else {
-      return false;
+        return false;
     }
 
 }
 
-export { eventToggleMenuButtons, eventBlurElement, parseToNode, isExtension };
+const tailwindConfig = () => {
+
+    tailwind.config = {
+        darkMode: 'class',
+        theme: {
+            extend: {
+                fontFamily: {
+                    sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif']
+                }
+            }
+        }
+    }
+}
+
+export { eventToggleMenuButtons, eventBlurElement, parseToNode, isExtension,tailwindConfig };

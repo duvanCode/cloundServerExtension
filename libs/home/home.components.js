@@ -3,9 +3,9 @@ import { parseToNode } from './../utils/generic.methods.js';
 
 const createDirectoryHTML = (directory) => {
     return `
-    <div class="folder" data-path="${directory?._id ?? ''}">
-        <i class="fas fa-folder"></i>
-        <p class="text-overflow" >${directory?.name ?? ''}</p>
+    <div class="folder text-center cursor-pointer mb-1" data-path="${directory?._id ?? ''}">
+        <i class="fas fa-folder text-4xl text-blue-500 mb-1" title="${directory?.name ?? ''}"></i>
+        <p class="overflow-hidden whitespace-nowrap text-ellipsis w-[92px] md:w-32 lg:w-48 mt-[5px] mb-0 text-[0.85rem] text-left" title="${directory?.name ?? ''}" >${directory?.name ?? ''}</p>
     </div>
     `;
 }
@@ -15,17 +15,18 @@ const createImagenHTML = (directory) => {
     let randomNum = Math.random(1,100);
 
     return `
-    <div class="imagen-folder" data-path="${directory?._id ?? ''}"  url-file="${directory?.dataFile?.fileUrl??''}">
-        <a href="${directory?.dataFile?.fileUrl??''}">
+    <div class="imagen-folder flex flex-col justify-center items-center" data-path="${directory?._id ?? ''}"  url-file="${directory?.dataFile?.fileUrl??''}">
+        <a href="${directory?.dataFile?.fileUrl??''}" class="max-w-md max-h-80">
             <img
-                class="img-amp"
+                class="img-amp w-15 block cursor-pointer !h-8.5 mb-1"
                 data-src="${directory?.dataFile?.fileUrl??''}"
                 src="./images/loading-image.svg?r=${randomNum}"
                 error-src="./images/loading-image.svg"
                 loading="lazy"
+                title="${directory?.name ?? ''}"
             />
         </a>
-        <p class="text-overflow" >${directory?.name ?? ''}</p>
+        <p class="overflow-hidden whitespace-nowrap text-ellipsis w-[92px] md:w-32 lg:w-48 mt-[5px] mb-0 text-[0.85rem] text-left" title="${directory?.name ?? ''}">${directory?.name ?? ''}</p>
     </div>
     `;
 }
@@ -34,8 +35,8 @@ const createImagenHTML = (directory) => {
 
 const migaHTML = (directory) => {
     return `
-        <li data-path-li="${directory?._id ?? ''}">
-            <a href="#" data-path="${directory?._id ?? ''}">${directory?.name ?? ''}</a>
+        <li data-path-li="${directory?._id ?? ''}" class="inline text-sm after:content-['>'] after:mx-1 after:text-blue-500 last:after:content-[''] last:text-gray-700 last:pointer-events-none overflow-hidden whitespace-nowrap text-ellipsis max-w-[100px] md:w-32 lg:w-48 text-[0.85rem] text-left">
+            <a href="#" data-path="${directory?._id ?? ''}" title="${directory?.name ?? ''}">${directory?.name ?? ''}</a>
         </li>
     `;
 }
@@ -60,7 +61,7 @@ const createButton = (label, id, className = "btn-submit", type = "submit") => {
 const createFormFolder = () => {
     return `
     <div class="form-container">
-        <form id="createFolderForm">
+        <form id="createFolderForm" autocomplete="off">
         ${createHeader("Create Folder")}
         ${createInput("Name",'nameFolder')}
         ${createButton("Create",'submit')}
@@ -85,7 +86,7 @@ const createMenuFolder = (pathID,urlFile) => {
 
 const elementAddFile = () =>
 {
-    const menuHTML = '<i class="fa-regular fa-file" style="color: #e6f3ff;font-size: 100px;"></i>';    
+    const menuHTML = '<i class="fa-regular fa-file text-4xl text-blue-500" style="color: #e6f3ff;font-size: 100px;"></i>';    
     return parseToNode(menuHTML);
 }
 
@@ -93,15 +94,14 @@ const getImgPreview = (src) =>
 {
     let randomNum = Math.random(1,100);
     const menuHTML = `
-        <div class="content-img-preview">
+        <div class="bg-[#cccccc6e] p-[15px] m-0 rounded-[20px] border border-[#ccc] relative">
             <i id="close-form" class="fa-solid fa-xmark" style="position: absolute;top: 10px;right: 10px;"></i>
             <img
-                class="img-amp"
+                class="img-amp w-full rounded-2xl p-0 m-0 max-h-[90vh] min-h-[50vh]"
                 data-src="${src}"
                 src="./images/loading-image.svg?r=${randomNum}"
                 error-src="./images/loading-image.svg"
                 loading="lazy"
-                style="width: 100%;border-radius: 15px;padding: 0; margin: 0;max-height:90vh;min-height:50vh;"
             />
         </div>
         `;    
@@ -110,9 +110,9 @@ const getImgPreview = (src) =>
 
 const otherFileHTML = (directory) => {
     return `
-    <div class="other-file" data-path="${directory?._id ?? ''}" url-file="${directory?.dataFile?.fileUrl??''}">
-        <i class="fa-solid fa-file"></i>
-        <p class="text-overflow" >${directory?.name ?? ''}</p>
+    <div class="other-file text-center" data-path="${directory?._id ?? ''}" url-file="${directory?.dataFile?.fileUrl??''}">
+        <i class="fa-solid fa-file text-4xl text-blue-500 text-center mb-1" title="${directory?.name ?? ''}"></i>
+        <p class="overflow-hidden whitespace-nowrap text-ellipsis w-[92px] md:w-32 lg:w-48" title="${directory?.name ?? ''}">${directory?.name ?? ''}</p>
     </div>
     `;
 }

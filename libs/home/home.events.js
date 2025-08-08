@@ -1,6 +1,6 @@
 import { homeBySession, eventLoadDirectory, eventMiga, eventClickToMenuAvatar, eventLogout, loadDataUser, eventClickToMenuDown, eventClickCreateFolder, eventHoverOnDropZone, eventHoverOffDropZone, eventDropFile,classToDesktop } from './home.lib.js';
 import { cargando } from '../login/login.lib.js';
-
+import { tailwindConfig } from '../utils/generic.methods.js';
 const homeEvents = {
 
     // eventos con peticiones
@@ -47,6 +47,10 @@ const homeEvents = {
         classToDesktop();
     },
 
+    taildWindCss: () => {
+        tailwindConfig();
+    },
+
     init: async function () {
         cargando(true);
         this.classToDesktop();
@@ -56,7 +60,8 @@ const homeEvents = {
         this.userDataEvents();
         this.menuDownEvents();
         this.dropZoneEvents();
-
+        this.taildWindCss();
+        
         cargando(false,{
             "success":true,
             "mjs":"Logueado con éxito"

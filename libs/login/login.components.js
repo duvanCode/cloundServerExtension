@@ -1,4 +1,5 @@
 const createElementLoading = () => {
+    
     let pelicula = document.createElement('DIV');
     pelicula.style.position = 'absolute';
     pelicula.style.height = '100%';

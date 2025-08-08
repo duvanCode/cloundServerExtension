@@ -247,7 +247,7 @@ const eventClikDeleteFolder = () => {
         let elementA = document.createElement('a');
         
         elementA.setAttribute('download', '');
-        elementA.setAttribute('class', 'd-none');
+        elementA.setAttribute('class', 'hidden');
         document.body.appendChild(elementA); 
         elementA.setAttribute('href',urlFile);
         elementA.click();
@@ -384,7 +384,7 @@ const createFolder = async (name) => {
                 }
             };
             let result = await service(myRquest);
-            if (result?.success) return result;
+            return result;
         }
     } catch (e) {
         console.log(e);
@@ -430,18 +430,32 @@ const eventSubmitFolder = async () => {
     document.getElementById('createFolderForm').addEventListener('submit', async function (e) {
         e.preventDefault();
 
-        cargando(true);
-
-        let fatherId = getFolderNow();
-
         const nameFolder = document.getElementById('nameFolder').value;
+        
+        cargando(true);
+        
+        let fatherId = getFolderNow();
 
         let response = await createFolder(nameFolder);
 
-        if (response?.success) await eventLoadDirectory(fatherId);
+        if (response?.success)
+        {
 
-        cargando(false);
-        cargando(false);
+            await eventLoadDirectory(fatherId);
+
+            cargando(false);
+
+        } else {
+
+            let feedback = {
+                "success":response?.success,
+                "mjs":response?.data.join(' ')
+            };
+
+            cargando(false,feedback);
+         }
+
+        
     });
 }
 
@@ -509,7 +523,6 @@ const uploadFile = async (files) => {
                 body: formData,
                 headers: myHeaders
             };
-            console.log(myRquest);
             let result = await service(myRquest);
             if (result?.success) return result.data;
             if (!result?.success) await getTokenUpladFile();

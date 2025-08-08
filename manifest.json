@@ -18,7 +18,12 @@
         "http://localhost:3000/*",
         "https://cloundserverappback.onrender.com/*",
         "https://cloundserver.onrender.com/*",
-        "https://telegram.ondeploy.space/*",
-        "https://cdn.jsdelivr.net/*"
-    ]
+        "http://telegram.ondeploy.space/*",
+        "http://serverclound.lego.ondeploy.space/*",
+        "https://cdn.jsdelivr.net/*",
+        "https://telegram.ondeploy.space/*"
+    ],
+      "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self';"
+  }
 }
